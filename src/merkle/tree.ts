@@ -1,21 +1,24 @@
 const ethUtil = require('ethereumjs-util')
-const RLP = require('rlp')
-const Node = require('./node')
+import { encode, decode, Input } from 'rlp'
+import Node from './node'
 
 /**
  * Binary Merkle tree which uses keccak256 as hash function.
  */
-module.exports = class MerkleTree {
-  constructor () {
+export default class MerkleTree {
+  root: Node | null
+  leaves: any
+
+  constructor() {
     this.root = null
     this.leaves = {}
   }
 
   /**
    * Construct Merkle tree from its leaves.
-   * @param {Buffer[]} leaves - Array of leaf values (Buffer)
+   * @param leaves - Array of leaf values
    */
-  static fromLeaves (leaves) {
+  static fromLeaves(leaves: Buffer[]): MerkleTree {
     if (!powOfTwo(leaves.length)) {
       throw new Error('Invalid number of elements')
     }
@@ -27,13 +30,13 @@ module.exports = class MerkleTree {
       leafNodes.push(node)
       t.leaves[leaf.toString('hex')] = node
     }
-    this.leaves = leafNodes
+    // this.leaves = leafNodes
     t.root = this.computeRootFromLeaves(leafNodes)
 
     return t
   }
 
-  static computeRootFromLeaves (leaves) {
+  static computeRootFromLeaves(leaves: Node[]): Node {
     if (leaves.length === 2) {
       let v = ethUtil.keccak256(Buffer.concat([leaves[0].value, leaves[1].value]))
       let node = new Node(v, [leaves[0], leaves[1]])
@@ -57,21 +60,25 @@ module.exports = class MerkleTree {
   /**
    * Constructs tree from a RLP-encoded buffer which
    * contains the root and leaf values as an array.
-   * @param {Buffer} buf - RLP-encoded tree
+   * @param buf - RLP-encoded tree
    */
-  static fromRLP (buf) {
-    const decoded = RLP.decode(buf)
+  static fromRLP(buf: Buffer): MerkleTree {
+    const decoded = <Buffer[]>decode(<Input>buf)
     const t = this.fromLeaves(decoded.slice(1))
-    if (!t.root.value.equals(decoded[0])) {
+    if (t.root === null || !t.root.value.equals(decoded[0])) {
       throw new Error('Re-constructed tree has different root')
     }
 
     return t
   }
 
-  prove (leaf) {
+  prove(leaf: Buffer) {
     if (!(leaf.toString('hex') in this.leaves)) {
       throw new Error('Leaf not in tree')
+    }
+
+    if (this.root === null) {
+      throw new Error('Tree has no root')
     }
 
     let branch = []
@@ -87,7 +94,11 @@ module.exports = class MerkleTree {
     return branch
   }
 
-  verify (branch) {
+  verify(branch: any): boolean {
+    if (this.root === null) {
+      throw new Error('Tree has no root')
+    }
+
     let cur = branch[0]
     let sibling = branch[1]
     cur = this._hashSiblings(cur, sibling)
@@ -102,24 +113,28 @@ module.exports = class MerkleTree {
     return cur.equals(this.root.value)
   }
 
-  hasLeaf (leaf) {
-    return (leaf.toString('hex') in this.leaves)
+  hasLeaf(leaf: Buffer): boolean {
+    return leaf.toString('hex') in this.leaves
   }
 
   /**
    * Serializes tree to RLP. Serialized version includes the leaves
    * and the root hash (for verification).
    */
-  toRLP () {
+  toRLP(): Buffer {
+    if (this.root === null) {
+      throw new Error('Tree has no root')
+    }
+
     let data = [this.root.value]
     for (let k in this.leaves) {
       let leaf = this.leaves[k]
       data.push(leaf.value)
     }
-    return RLP.encode(data)
+    return encode(data)
   }
 
-  _hashSiblings (n1, n2) {
+  _hashSiblings(n1: any, n2: any): Buffer {
     if (n1.position === 'left' && n2.position === 'right') {
       return ethUtil.keccak256(Buffer.concat([n1.value, n2.value]))
     } else if (n1.position === 'right' && n2.position === 'left') {
@@ -130,7 +145,7 @@ module.exports = class MerkleTree {
   }
 }
 
-function powOfTwo (n) {
+function powOfTwo(n: number): boolean {
   let r = n & (n - 1)
-  return (n > 0) && (r === 0)
+  return n > 0 && r === 0
 }

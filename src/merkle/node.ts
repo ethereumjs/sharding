@@ -1,14 +1,19 @@
-module.exports = class Node {
-  constructor (value, children = []) {
+export default class Node {
+  value: Buffer
+  children: Node[]
+  parent: Node | null
+
+  constructor(value: Buffer, children: Node[] = []) {
     this.value = value || Buffer.from([])
     this.children = children
+    this.parent = null
   }
 
-  isLeaf () {
+  isLeaf() {
     return this.children.length === 0
   }
 
-  getSibling () {
+  getSibling() {
     if (this.parent === null) {
       throw new Error('Node has no parent')
     }
@@ -20,7 +25,7 @@ module.exports = class Node {
     }
   }
 
-  getPosition () {
+  getPosition() {
     if (this.parent === null) {
       throw new Error('Node has no parent')
     }
