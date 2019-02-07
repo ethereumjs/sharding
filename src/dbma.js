@@ -40,8 +40,21 @@ module.exports = class DBMA {
     }
   }
 
+  /**
+   * Pre-witness is a temporary witness, which is valid
+   * before a log has been added to the top buffer.
+   */
   getPreWitness (log) {
-    throw new Error('Not implemented')
+    for (let tree of this.bottomForest) {
+      if (!tree.hasLeaf(log)) {
+        continue
+      }
+
+      const proof = tree.prove(log)
+      return { treeRoot: tree.root.value, treeBranch: proof }
+    }
+
+    throw new Error('Log not in bottom forest')
   }
 
   getPermanentWitness (log) {

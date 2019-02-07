@@ -86,6 +86,10 @@ module.exports = class MerkleTree {
     return cur.equals(this.root.value)
   }
 
+  hasLeaf (leaf) {
+    return (leaf.toString('hex') in this.leaves)
+  }
+
   _hashSiblings (n1, n2) {
     if (n1.position === 'left' && n2.position === 'right') {
       return ethUtil.keccak256(Buffer.concat([n1.value, n2.value]))
