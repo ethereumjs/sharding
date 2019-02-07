@@ -72,6 +72,21 @@ export default class MerkleTree {
     return t
   }
 
+  static verify(root: Buffer, branch: any): boolean {
+    let cur = branch[0]
+    const sibling = branch[1]
+    cur = this._hashSiblings(cur, sibling)
+    branch = branch.slice(2)
+    for (const step of branch) {
+      if (typeof cur.position === 'undefined') {
+        cur = { value: cur, position: step.position === 'right' ? 'left' : 'right' }
+      }
+      cur = this._hashSiblings(cur, step)
+    }
+
+    return cur.equals(root)
+  }
+
   prove(leaf: Buffer) {
     if (!(leaf.toString('hex') in this.leaves)) {
       throw new Error('Leaf not in tree')
@@ -99,18 +114,7 @@ export default class MerkleTree {
       throw new Error('Tree has no root')
     }
 
-    let cur = branch[0]
-    const sibling = branch[1]
-    cur = this._hashSiblings(cur, sibling)
-    branch = branch.slice(2)
-    for (const step of branch) {
-      if (typeof cur.position === 'undefined') {
-        cur = { value: cur, position: step.position === 'right' ? 'left' : 'right' }
-      }
-      cur = this._hashSiblings(cur, step)
-    }
-
-    return cur.equals(this.root.value)
+    return MerkleTree.verify(this.root.value, branch)
   }
 
   hasLeaf(leaf: Buffer): boolean {
@@ -134,7 +138,7 @@ export default class MerkleTree {
     return encode(data)
   }
 
-  _hashSiblings(n1: any, n2: any): Buffer {
+  static _hashSiblings(n1: any, n2: any): Buffer {
     if (n1.position === 'left' && n2.position === 'right') {
       return ethUtil.keccak256(Buffer.concat([n1.value, n2.value]))
     } else if (n1.position === 'right' && n2.position === 'left') {
