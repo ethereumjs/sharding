@@ -1,0 +1,23 @@
+{
+  "name": "sharding",
+  "version": "0.0.1",
+  "description": "Ethereum sharding experiments",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "test": "tape test/**/*.js",
+    "lint": "standard"
+  },
+  "author": "Sina Mahmoodi",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "standard": "^12.0.1",
+    "tape": "^4.9.2"
+  },
+  "dependencies": {
+    "ethereumjs-util": "^6.0.0"
+  }
+}
