@@ -24,9 +24,9 @@ export default class MerkleTree {
     }
 
     const t = new MerkleTree()
-    let leafNodes = []
-    for (let leaf of leaves) {
-      let node = new Node(leaf, [])
+    const leafNodes = []
+    for (const leaf of leaves) {
+      const node = new Node(leaf, [])
       leafNodes.push(node)
       t.leaves[leaf.toString('hex')] = node
     }
@@ -38,17 +38,17 @@ export default class MerkleTree {
 
   static computeRootFromLeaves(leaves: Node[]): Node {
     if (leaves.length === 2) {
-      let v = ethUtil.keccak256(Buffer.concat([leaves[0].value, leaves[1].value]))
-      let node = new Node(v, [leaves[0], leaves[1]])
+      const v = ethUtil.keccak256(Buffer.concat([leaves[0].value, leaves[1].value]))
+      const node = new Node(v, [leaves[0], leaves[1]])
       leaves[0].parent = node
       leaves[1].parent = node
       return node
     }
 
-    let nodes = []
+    const nodes = []
     for (let i = 0; i < leaves.length; i += 2) {
-      let v = ethUtil.keccak256(Buffer.concat([leaves[i].value, leaves[i + 1].value]))
-      let node = new Node(v, [leaves[i], leaves[i + 1]])
+      const v = ethUtil.keccak256(Buffer.concat([leaves[i].value, leaves[i + 1].value]))
+      const node = new Node(v, [leaves[i], leaves[i + 1]])
       leaves[i].parent = node
       leaves[i + 1].parent = node
       nodes.push(node)
@@ -81,7 +81,7 @@ export default class MerkleTree {
       throw new Error('Tree has no root')
     }
 
-    let branch = []
+    const branch = []
     let cur = this.leaves[leaf.toString('hex')]
     branch.push({ value: cur.value, position: cur.getPosition() })
     while (cur.value !== this.root.value) {
@@ -100,10 +100,10 @@ export default class MerkleTree {
     }
 
     let cur = branch[0]
-    let sibling = branch[1]
+    const sibling = branch[1]
     cur = this._hashSiblings(cur, sibling)
     branch = branch.slice(2)
-    for (let step of branch) {
+    for (const step of branch) {
       if (typeof cur.position === 'undefined') {
         cur = { value: cur, position: step.position === 'right' ? 'left' : 'right' }
       }
@@ -126,9 +126,9 @@ export default class MerkleTree {
       throw new Error('Tree has no root')
     }
 
-    let data = [this.root.value]
-    for (let k in this.leaves) {
-      let leaf = this.leaves[k]
+    const data = [this.root.value]
+    for (const k in this.leaves) {
+      const leaf = this.leaves[k]
       data.push(leaf.value)
     }
     return encode(data)
@@ -146,6 +146,6 @@ export default class MerkleTree {
 }
 
 function powOfTwo(n: number): boolean {
-  let r = n & (n - 1)
+  const r = n & (n - 1)
   return n > 0 && r === 0
 }
