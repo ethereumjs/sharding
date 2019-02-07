@@ -1,4 +1,5 @@
 const MerkleTree = require('./merkle')
+const DB = require('./db')
 
 /**
  * Double-batched Merkle log accumulator.
@@ -10,6 +11,7 @@ module.exports = class DBMA {
     this.bottomIdx = 0
     this.bottomBufferSize = bottomBufferSize
     this.topForest = []
+    this.db = new DB()
   }
 
   get bottomBuffer () {
@@ -31,6 +33,7 @@ module.exports = class DBMA {
   addLogs (logs) {
     const tree = MerkleTree.fromLeaves(logs)
     this.bottomForest[this.bottomIdx] = tree
+    this.db.put(tree.root.value, tree.toRLP())
 
     this.bottomIdx++
     if (this.bottomIdx % this.bottomBufferSize === 0) {
@@ -57,7 +60,32 @@ module.exports = class DBMA {
     throw new Error('Log not in bottom forest')
   }
 
+  /**
+   * Return permanent witness for log. This witness can be
+   * generated only after the log has been accumulated in
+   * the top buffer.
+   */
   getPermanentWitness (log) {
-    throw new Error('Not implemented')
+    for (let topTree of this.topForest) {
+      for (let k in topTree.leaves) {
+        let topLeaf = topTree.leaves[k]
+        let serializedBottomTree = this.db.get(topLeaf.value)
+        let bottomTree = MerkleTree.fromRLP(serializedBottomTree)
+        if (!bottomTree.hasLeaf(log)) {
+          continue
+        }
+
+        const bottomProof = bottomTree.prove(log)
+        const topProof = topTree.prove(topLeaf.value)
+
+        return {
+          topRoot: topTree.root.value,
+          topProof: topProof,
+          bottomProof: bottomProof
+        }
+      }
+    }
+
+    throw new Error('Log not in accumulator')
   }
 }

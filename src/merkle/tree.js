@@ -1,4 +1,5 @@
 const ethUtil = require('ethereumjs-util')
+const RLP = require('rlp')
 const Node = require('./node')
 
 /**
@@ -53,6 +54,21 @@ module.exports = class MerkleTree {
     return this.computeRootFromLeaves(nodes)
   }
 
+  /**
+   * Constructs tree from a RLP-encoded buffer which
+   * contains the root and leaf values as an array.
+   * @param {Buffer} buf - RLP-encoded tree
+   */
+  static fromRLP (buf) {
+    const decoded = RLP.decode(buf)
+    const t = this.fromLeaves(decoded.slice(1))
+    if (!t.root.value.equals(decoded[0])) {
+      throw new Error('Re-constructed tree has different root')
+    }
+
+    return t
+  }
+
   prove (leaf) {
     if (!(leaf.toString('hex') in this.leaves)) {
       throw new Error('Leaf not in tree')
@@ -88,6 +104,19 @@ module.exports = class MerkleTree {
 
   hasLeaf (leaf) {
     return (leaf.toString('hex') in this.leaves)
+  }
+
+  /**
+   * Serializes tree to RLP. Serialized version includes the leaves
+   * and the root hash (for verification).
+   */
+  toRLP () {
+    let data = [this.root.value]
+    for (let k in this.leaves) {
+      let leaf = this.leaves[k]
+      data.push(leaf.value)
+    }
+    return RLP.encode(data)
   }
 
   _hashSiblings (n1, n2) {

@@ -27,9 +27,16 @@ tape('DBMA', (t) => {
   })
 
   t.test('should generate pre-witness', (st) => {
-    let log = collations[7].logs[1]
-    let preWitness = a.getPreWitness(log)
+    const log = collations[7].logs[1]
+    const preWitness = a.getPreWitness(log)
     st.ok(preWitness.treeRoot.equals(a.bottomForest[3].root.value))
+    st.end()
+  })
+
+  t.test('should generate permanent witness', (st) => {
+    const log = collations[1].logs[2]
+    const witness = a.getPermanentWitness(log)
+    st.ok(witness.topRoot.equals(a.topForest[0].root.value))
     st.end()
   })
 })
