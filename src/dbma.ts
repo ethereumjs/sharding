@@ -1,6 +1,18 @@
 import MerkleTree from './merkle'
 import DB from './db'
 
+interface PreWitness {
+  treeRoot: Buffer
+  treeBranch: any
+}
+
+interface PermanentWitness {
+  topRoot: Buffer
+  topProof: any
+  bottomRoot: Buffer
+  bottomProof: any
+}
+
 /**
  * Double-batched Merkle log accumulator.
  * https://ethresear.ch/t/double-batched-merkle-log-accumulator/571
@@ -56,7 +68,7 @@ export default class DBMA {
    * Pre-witness is a temporary witness, which is valid
    * before a log has been added to the top buffer.
    */
-  getPreWitness(log: Buffer) {
+  getPreWitness(log: Buffer): PreWitness {
     for (const tree of this.bottomForest) {
       if (tree.root === null) {
         throw new Error('Tree has no root')
@@ -78,7 +90,7 @@ export default class DBMA {
    * generated only after the log has been accumulated in
    * the top buffer.
    */
-  getPermanentWitness(log: Buffer) {
+  getPermanentWitness(log: Buffer): PermanentWitness {
     for (const topTree of this.topForest) {
       if (topTree.root === null) {
         throw new Error('Top tree has no root')
@@ -101,11 +113,45 @@ export default class DBMA {
         return {
           topRoot: topTree.root.value,
           topProof: topProof,
+          bottomRoot: bottomTree.root!.value,
           bottomProof: bottomProof,
         }
       }
     }
 
     throw new Error('Log not in accumulator')
+  }
+
+  verifyPreWitness(witness: PreWitness): boolean {
+    const treeRoot = witness.treeRoot
+    for (const tree of this.bottomForest) {
+      if (!tree.root!.value.equals(treeRoot)) {
+        continue
+      }
+
+      return MerkleTree.verify(treeRoot, witness.treeBranch)
+    }
+
+    throw new Error('Bottom tree not in accumulator')
+  }
+
+  verifyPermanentWitness(witness: PermanentWitness): boolean {
+    const topTree = this.getTopTree(witness.topRoot)
+    if (!MerkleTree.verify(witness.topRoot, witness.topProof)) {
+      return false
+    }
+    return MerkleTree.verify(witness.bottomRoot, witness.bottomProof)
+  }
+
+  getTopTree(root: Buffer): MerkleTree {
+    for (const tree of this.topForest) {
+      if (!tree.root!.value.equals(root)) {
+        continue
+      }
+
+      return tree
+    }
+
+    throw new Error('Top tree not found')
   }
 }
