@@ -1,23 +1,21 @@
-const tape = require('tape')
-const DBMA = require('../src/dbma')
-const Collation = require('../src/collation')
-const Log = require('../src/log')
+import * as tape from 'tape'
+import { DBMA, Collation, Log } from '../src'
 
 tape('DBMA', (t) => {
-  let a = new DBMA(4)
+  const a = new DBMA(4)
 
-  let collations = []
+  const collations: Collation[] = []
   for (let i = 0; i < 8; i++) {
-    let logs = []
+    const logs: Buffer[] = []
     for (let j = 0; j < 8; j++) {
-      let log = new Log(i * 10 + j)
+      const log = new Log(i * 10 + j)
       logs.push(log.hash())
     }
     collations[i] = new Collation(i, logs)
   }
 
   t.test('should add logs', (st) => {
-    for (let c of collations) {
+    for (const c of collations) {
       a.addLogs(c.logs)
     }
 
@@ -29,14 +27,14 @@ tape('DBMA', (t) => {
   t.test('should generate pre-witness', (st) => {
     const log = collations[7].logs[1]
     const preWitness = a.getPreWitness(log)
-    st.ok(preWitness.treeRoot.equals(a.bottomForest[3].root.value))
+    st.ok(preWitness.treeRoot.equals(a.bottomForest[3].root!.value))
     st.end()
   })
 
   t.test('should generate permanent witness', (st) => {
     const log = collations[1].logs[2]
     const witness = a.getPermanentWitness(log)
-    st.ok(witness.topRoot.equals(a.topForest[0].root.value))
+    st.ok(witness.topRoot.equals(a.topForest[0].root!.value))
     st.end()
   })
 })

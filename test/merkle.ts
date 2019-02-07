@@ -1,10 +1,10 @@
-const tape = require('tape')
+import * as tape from 'tape'
 const ethUtil = require('ethereumjs-util')
-const MerkleTree = require('../src/merkle')
+import MerkleTree from '../src/merkle'
 
 tape('MerkleTree', (t) => {
-  let tree
-  let leaves = []
+  let tree: MerkleTree
+  const leaves: Buffer[] = []
   for (let i = 0; i < 4; i++) {
     leaves.push(ethUtil.keccak256(Buffer.from([i])))
   }

@@ -19,7 +19,7 @@
     "tslint:fix": "ethereumjs-config-tslint-fix",
     "lint": "ethereumjs-config-lint",
     "lint:fix": "ethereumjs-config-lint-fix",
-    "test": "tape test/**/*.js"
+    "test": "ts-node node_modules/tape/bin/tape test/**/*.ts"
   },
   "author": "Sina Mahmoodi",
   "license": "ISC",
@@ -30,8 +30,10 @@
     "@ethereumjs/config-tslint": "^1.1.0",
     "@types/bn.js": "^4.11.4",
     "@types/node": "^10.12.21",
+    "@types/tape": "^4.2.33",
     "prettier": "^1.16.4",
     "tape": "^4.9.2",
+    "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
     "typescript": "^3.3.1",
     "typestrict": "^1.0.2"
