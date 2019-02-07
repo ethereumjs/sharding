@@ -1,6 +1,7 @@
 {
   "name": "sharding",
   "version": "0.0.1",
+  "private": "true",
   "description": "Ethereum sharding experiments",
   "main": "dist/index.js",
   "scripts": {
