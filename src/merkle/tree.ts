@@ -9,11 +9,11 @@ import Node from './node'
  * Binary Merkle tree which uses keccak256 as hash function.
  */
 export default class MerkleTree {
-  root: Node | null
+  root: Node
   leaves: any
 
   constructor() {
-    this.root = null
+    this.root = new Node(ethUtil.KECCAK256_RLP)
     this.leaves = {}
   }
 
@@ -33,7 +33,6 @@ export default class MerkleTree {
       leafNodes.push(node)
       t.leaves[leaf.toString('hex')] = node
     }
-    // this.leaves = leafNodes
     t.root = this.computeRootFromLeaves(leafNodes)
 
     return t
@@ -68,7 +67,7 @@ export default class MerkleTree {
   static fromRLP(buf: Buffer): MerkleTree {
     const decoded = <Buffer[]>decode(<Input>buf)
     const t = this.fromLeaves(decoded.slice(1))
-    if (t.root === null || !t.root.value.equals(decoded[0])) {
+    if (!t.root.value.equals(decoded[0])) {
       throw new Error('Re-constructed tree has different root')
     }
 
@@ -95,10 +94,6 @@ export default class MerkleTree {
       throw new Error('Leaf not in tree')
     }
 
-    if (this.root === null) {
-      throw new Error('Tree has no root')
-    }
-
     const branch = []
     let cur = this.leaves[leaf.toString('hex')]
     branch.push({ value: cur.value, position: cur.getPosition() })
@@ -113,10 +108,6 @@ export default class MerkleTree {
   }
 
   verify(branch: any): boolean {
-    if (this.root === null) {
-      throw new Error('Tree has no root')
-    }
-
     return MerkleTree.verify(this.root.value, branch)
   }
 
@@ -129,10 +120,6 @@ export default class MerkleTree {
    * and the root hash (for verification).
    */
   toRLP(): Buffer {
-    if (this.root === null) {
-      throw new Error('Tree has no root')
-    }
-
     const data = [this.root.value]
     for (const k in this.leaves) {
       const leaf = this.leaves[k]

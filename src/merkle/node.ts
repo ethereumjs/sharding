@@ -7,7 +7,7 @@ export default class Node {
   parent: Node | null
 
   constructor(value: Buffer, children: Node[] = []) {
-    this.value = value || Buffer.from([])
+    this.value = value
     this.children = children
     this.parent = null
   }

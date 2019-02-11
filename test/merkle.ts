@@ -2,6 +2,11 @@ import test from 'ava'
 const ethUtil = require('ethereumjs-util')
 import MerkleTree from '../src/merkle'
 
+test('should have empty root', t => {
+  const tree = new MerkleTree()
+  t.is(tree.root.value, ethUtil.KECCAK256_RLP)
+})
+
 test('should prove leaf', t => {
   const leaves: Buffer[] = []
   for (let i = 0; i < 4; i++) {

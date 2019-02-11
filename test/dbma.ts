@@ -34,7 +34,7 @@ test.serial('should generate and verify pre-witness', t => {
   const a = t.context.a
   const log = t.context.collations[7].logs[1]
   const preWitness = a.getPreWitness(log)
-  t.true(preWitness.treeRoot.equals(a.bottomForest[3].root!.value))
+  t.true(preWitness.treeRoot.equals(a.bottomForest[3].root.value))
   const ok = a.verifyPreWitness(preWitness)
   t.true(ok)
 })
@@ -43,7 +43,7 @@ test.serial('should generate and verify permanent witness', t => {
   const a = t.context.a
   const log = t.context.collations[1].logs[2]
   const witness = a.getPermanentWitness(log)
-  t.true(witness.topRoot.equals(a.topForest[0].root!.value))
+  t.true(witness.topRoot.equals(a.topForest[0].root.value))
   const ok = a.verifyPermanentWitness(witness)
   t.true(ok)
 })

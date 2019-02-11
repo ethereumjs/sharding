@@ -38,7 +38,6 @@ export default class DBMA {
   get bottomBuffer(): Buffer[] {
     const buf = []
     for (const tree of this.bottomForest) {
-      if (tree.root === null) throw new Error('Tree has no root')
       buf.push(tree.root.value)
     }
     return buf
@@ -47,7 +46,6 @@ export default class DBMA {
   get topBuffer(): Buffer[] {
     const buf = []
     for (const tree of this.topForest) {
-      if (tree.root === null) throw new Error('Tree has no root')
       buf.push(tree.root.value)
     }
     return buf
@@ -55,7 +53,6 @@ export default class DBMA {
 
   addLogs(logs: Buffer[]): void {
     const tree = MerkleTree.fromLeaves(logs)
-    if (tree.root === null) throw new Error('Tree has no root')
     this.bottomForest[this.bottomIdx] = tree
     this.db.put(tree.root.value, tree.toRLP())
 
@@ -73,10 +70,6 @@ export default class DBMA {
    */
   getPreWitness(log: Buffer): PreWitness {
     for (const tree of this.bottomForest) {
-      if (tree.root === null) {
-        throw new Error('Tree has no root')
-      }
-
       if (!tree.hasLeaf(log)) {
         continue
       }
@@ -95,9 +88,6 @@ export default class DBMA {
    */
   getPermanentWitness(log: Buffer): PermanentWitness {
     for (const topTree of this.topForest) {
-      if (topTree.root === null) {
-        throw new Error('Top tree has no root')
-      }
       for (const k in topTree.leaves) {
         const topLeaf = topTree.leaves[k]
         const serializedBottomTree = this.db.get(topLeaf.value)
@@ -116,7 +106,7 @@ export default class DBMA {
         return {
           topRoot: topTree.root.value,
           topProof: topProof,
-          bottomRoot: bottomTree.root!.value,
+          bottomRoot: bottomTree.root.value,
           bottomProof: bottomProof,
         }
       }
@@ -128,7 +118,7 @@ export default class DBMA {
   verifyPreWitness(witness: PreWitness): boolean {
     const treeRoot = witness.treeRoot
     for (const tree of this.bottomForest) {
-      if (!tree.root!.value.equals(treeRoot)) {
+      if (!tree.root.value.equals(treeRoot)) {
         continue
       }
 
@@ -147,7 +137,7 @@ export default class DBMA {
 
   getTopTree(root: Buffer): MerkleTree {
     for (const tree of this.topForest) {
-      if (!tree.root!.value.equals(root)) {
+      if (!tree.root.value.equals(root)) {
         continue
       }
 
