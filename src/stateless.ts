@@ -1,8 +1,6 @@
-const { promisify } = require('util')
-const VM = require('ethereumjs-vm')
-const StateManager = require('ethereumjs-vm/dist/stateManager')
 const ethUtil = require('ethereumjs-util')
 import Trie from './trie'
+import VM from './vm'
 
 export async function attachTxWitness(trie: any, tx: any) {
   const witnesses = []
@@ -50,11 +48,8 @@ export async function verifyTx(tx: any) {
 
   // Run transaction with all of accessList accounts in the trie
   // and verify that postStateRoot matches
-  const stateManager = new StateManager({ trie: trie.wrapped })
-  const vm = new VM({ stateManager })
-  const runTxP = promisify(vm.runTx.bind(vm))
-  await runTxP({ tx: rawTx })
-
+  const vm = VM.fromTrie(trie)
+  await vm.runTx(rawTx)
   if (!trie.wrapped.root.equals(postStateRoot)) {
     return false
   }

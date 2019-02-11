@@ -1,31 +1,29 @@
 import * as tape from 'tape'
 import Account from 'ethereumjs-account'
 import { attachTxWitness, verifyTx } from '../src/stateless'
-const VM = require('ethereumjs-vm')
-const { promisify } = require('util')
+import State from '../src/state'
+import VM from '../src/vm'
 const Tx = require('ethereumjs-tx')
 
 tape('Stateless', async t => {
   let tx = createTx()
-  const vm = new VM()
-  const putAccountP = promisify(vm.stateManager.putAccount.bind(vm.stateManager))
-  const getStateRootP = promisify(vm.stateManager.getStateRoot.bind(vm.stateManager))
-  const runTxP = promisify(vm.runTx.bind(vm))
-  const flush = promisify(vm.stateManager._cache.flush.bind(vm.stateManager._cache))
+  const state = new State()
 
-  const a = new Account({ nonce: '0x00', balance: '0xffffffff' })
-  await putAccountP(tx.from, a)
+  const fromAddr = tx.from
   const toAddr = Buffer.from(tx.to, 'hex')
+  const fromAccount = new Account({ nonce: '0x00', balance: '0xffffffff' })
   const toAccount = new Account({ nonce: '0x05', balance: '0xff' })
-  await putAccountP(toAddr, toAccount)
-  await flush()
+  await state.putAccount(fromAddr, fromAccount)
+  await state.putAccount(toAddr, toAccount)
+  await state.flush()
 
-  tx = { rawTx: tx, accessList: [tx.from, toAddr] }
-  tx = await attachTxWitness(vm.stateManager._trie, tx)
+  tx = { rawTx: tx, accessList: [fromAddr, toAddr] }
+  tx = await attachTxWitness(state.wrapped._trie, tx)
 
-  const preStateRoot = await getStateRootP()
-  await runTxP({ tx: tx.rawTx })
-  const postStateRoot = await getStateRootP()
+  const vm = VM.fromState(state)
+  const preStateRoot = await state.getStateRoot()
+  await vm.runTx(tx.rawTx)
+  const postStateRoot = await state.getStateRoot()
 
   tx = Object.assign({}, tx, { preStateRoot, postStateRoot })
 
