@@ -5,8 +5,8 @@ import MerkleTree from './merkle'
 import DB from './db'
 
 interface PreWitness {
-  treeRoot: Buffer
-  treeBranch: any
+  root: Buffer
+  branch: any
 }
 
 interface PermanentWitness {
@@ -51,6 +51,13 @@ export default class DBMA {
     return buf
   }
 
+  /**
+   * Adds logs to the accumulator, by forming a merkle
+   * tree out of them and adding the tree to the bottom
+   * buffer. If capacity of bottom buffer is filled, forms
+   * a merkle tree out of bottom buffer and adds it to the
+   * top buffer.
+   */
   addLogs(logs: Buffer[]): void {
     const tree = MerkleTree.fromLeaves(logs)
     this.bottomForest[this.bottomIdx] = tree
@@ -75,7 +82,7 @@ export default class DBMA {
       }
 
       const proof = tree.prove(log)
-      return { treeRoot: tree.root.value, treeBranch: proof }
+      return { root: tree.root.value, branch: proof }
     }
 
     throw new Error('Log not in bottom forest')
@@ -115,21 +122,33 @@ export default class DBMA {
     throw new Error('Log not in accumulator')
   }
 
+  /**
+   * Verifies a pre-witness, by finding the bottom tree
+   * that has the same root as in witness, and then
+   * verifies the merkle branch.
+   */
   verifyPreWitness(witness: PreWitness): boolean {
-    const treeRoot = witness.treeRoot
-    for (const tree of this.bottomForest) {
-      if (!tree.root.value.equals(treeRoot)) {
+    const treeRoot = witness.root
+    for (const root of this.bottomBuffer) {
+      if (!root.equals(treeRoot)) {
         continue
       }
 
-      return MerkleTree.verify(treeRoot, witness.treeBranch)
+      return MerkleTree.verify(root, witness.branch)
     }
 
     throw new Error('Bottom tree not in accumulator')
   }
 
+  /** Verifies a permanent witness by checking top and
+   * bottom merkle branches. It further checks that the top
+   * merkle leaf is the same as the bottom tree root.
+   */
   verifyPermanentWitness(witness: PermanentWitness): boolean {
     if (!MerkleTree.verify(witness.topRoot, witness.topProof)) {
+      return false
+    }
+    if (!witness.bottomRoot.equals(witness.topProof[0].value)) {
       return false
     }
     return MerkleTree.verify(witness.bottomRoot, witness.bottomProof)

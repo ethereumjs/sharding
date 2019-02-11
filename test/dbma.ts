@@ -34,7 +34,7 @@ test.serial('should generate and verify pre-witness', t => {
   const a = t.context.a
   const log = t.context.collations[7].logs[1]
   const preWitness = a.getPreWitness(log)
-  t.true(preWitness.treeRoot.equals(a.bottomForest[3].root.value))
+  t.true(preWitness.root.equals(a.bottomForest[3].root.value))
   const ok = a.verifyPreWitness(preWitness)
   t.true(ok)
 })
