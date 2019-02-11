@@ -4,12 +4,12 @@
 import MerkleTree from './merkle'
 import DB from './db'
 
-interface PreWitness {
+export interface PreWitness {
   root: Buffer
   branch: any
 }
 
-interface PermanentWitness {
+export interface PermanentWitness {
   topRoot: Buffer
   topProof: any
   bottomRoot: Buffer
@@ -152,17 +152,5 @@ export default class DBMA {
       return false
     }
     return MerkleTree.verify(witness.bottomRoot, witness.bottomProof)
-  }
-
-  getTopTree(root: Buffer): MerkleTree {
-    for (const tree of this.topForest) {
-      if (!tree.root.value.equals(root)) {
-        continue
-      }
-
-      return tree
-    }
-
-    throw new Error('Top tree not found')
   }
 }

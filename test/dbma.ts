@@ -1,7 +1,7 @@
 import anyTest, { TestInterface } from 'ava'
 import { DBMA, Collation, Log } from '../src'
 
-const test = anyTest as TestInterface<{ a: DBMA, collations: Collation[] }>
+const test = anyTest as TestInterface<{ a: DBMA; collations: Collation[] }>
 
 test.before('DBMA', t => {
   const a = new DBMA(4)
