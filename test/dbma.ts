@@ -20,7 +20,7 @@ test.before('DBMA', t => {
   t.context.collations = collations
 })
 
-test('should add logs', t => {
+test.serial('should add logs', t => {
   const a = t.context.a
   for (const c of t.context.collations) {
     a.addLogs(c.logs)
@@ -30,7 +30,7 @@ test('should add logs', t => {
   t.is(a.topBuffer.length, 2)
 })
 
-test('should generate and verify pre-witness', t => {
+test.serial('should generate and verify pre-witness', t => {
   const a = t.context.a
   const log = t.context.collations[7].logs[1]
   const preWitness = a.getPreWitness(log)
@@ -39,7 +39,7 @@ test('should generate and verify pre-witness', t => {
   t.true(ok)
 })
 
-test('should generate and verify permanent witness', t => {
+test.serial('should generate and verify permanent witness', t => {
   const a = t.context.a
   const log = t.context.collations[1].logs[2]
   const witness = a.getPermanentWitness(log)
