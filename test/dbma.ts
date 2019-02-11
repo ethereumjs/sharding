@@ -1,7 +1,9 @@
-import * as tape from 'tape'
+import anyTest, { TestInterface } from 'ava'
 import { DBMA, Collation, Log } from '../src'
 
-tape('DBMA', t => {
+const test = anyTest as TestInterface<{ a: DBMA, collations: Collation[] }>
+
+test.before('DBMA', t => {
   const a = new DBMA(4)
 
   const collations: Collation[] = []
@@ -14,31 +16,34 @@ tape('DBMA', t => {
     collations[i] = new Collation(i, logs)
   }
 
-  t.test('should add logs', st => {
-    for (const c of collations) {
-      a.addLogs(c.logs)
-    }
+  t.context.a = a
+  t.context.collations = collations
+})
 
-    st.isEqual(a.bottomBuffer.length, 4)
-    st.isEqual(a.topBuffer.length, 2)
-    st.end()
-  })
+test('should add logs', t => {
+  const a = t.context.a
+  for (const c of t.context.collations) {
+    a.addLogs(c.logs)
+  }
 
-  t.test('should generate and verify pre-witness', st => {
-    const log = collations[7].logs[1]
-    const preWitness = a.getPreWitness(log)
-    st.ok(preWitness.treeRoot.equals(a.bottomForest[3].root!.value))
-    const ok = a.verifyPreWitness(preWitness)
-    st.ok(ok)
-    st.end()
-  })
+  t.is(a.bottomBuffer.length, 4)
+  t.is(a.topBuffer.length, 2)
+})
 
-  t.test('should generate and verify permanent witness', st => {
-    const log = collations[1].logs[2]
-    const witness = a.getPermanentWitness(log)
-    st.ok(witness.topRoot.equals(a.topForest[0].root!.value))
-    const ok = a.verifyPermanentWitness(witness)
-    st.ok(ok)
-    st.end()
-  })
+test('should generate and verify pre-witness', t => {
+  const a = t.context.a
+  const log = t.context.collations[7].logs[1]
+  const preWitness = a.getPreWitness(log)
+  t.true(preWitness.treeRoot.equals(a.bottomForest[3].root!.value))
+  const ok = a.verifyPreWitness(preWitness)
+  t.true(ok)
+})
+
+test('should generate and verify permanent witness', t => {
+  const a = t.context.a
+  const log = t.context.collations[1].logs[2]
+  const witness = a.getPermanentWitness(log)
+  t.true(witness.topRoot.equals(a.topForest[0].root!.value))
+  const ok = a.verifyPermanentWitness(witness)
+  t.true(ok)
 })

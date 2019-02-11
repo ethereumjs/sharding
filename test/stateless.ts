@@ -1,11 +1,11 @@
-import * as tape from 'tape'
+import test from 'ava'
 import Account from 'ethereumjs-account'
 import { attachTxWitness, verifyTx } from '../src/stateless'
 import State from '../src/state'
 import VM from '../src/vm'
 const Tx = require('ethereumjs-tx')
 
-tape('Stateless', async t => {
+test('Stateless', async t => {
   let tx = createTx()
   const state = new State()
 
@@ -27,8 +27,7 @@ tape('Stateless', async t => {
 
   tx = Object.assign({}, tx, { preStateRoot, postStateRoot })
 
-  t.ok(await verifyTx(tx))
-  t.end()
+  t.true(await verifyTx(tx))
 })
 
 function createTx() {
