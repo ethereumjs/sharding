@@ -1,7 +1,7 @@
 import * as tape from 'tape'
 import { DBMA, Collation, Log } from '../src'
 
-tape('DBMA', (t) => {
+tape('DBMA', t => {
   const a = new DBMA(4)
 
   const collations: Collation[] = []
@@ -14,7 +14,7 @@ tape('DBMA', (t) => {
     collations[i] = new Collation(i, logs)
   }
 
-  t.test('should add logs', (st) => {
+  t.test('should add logs', st => {
     for (const c of collations) {
       a.addLogs(c.logs)
     }
@@ -24,7 +24,7 @@ tape('DBMA', (t) => {
     st.end()
   })
 
-  t.test('should generate and verify pre-witness', (st) => {
+  t.test('should generate and verify pre-witness', st => {
     const log = collations[7].logs[1]
     const preWitness = a.getPreWitness(log)
     st.ok(preWitness.treeRoot.equals(a.bottomForest[3].root!.value))
@@ -33,7 +33,7 @@ tape('DBMA', (t) => {
     st.end()
   })
 
-  t.test('should generate and verify permanent witness', (st) => {
+  t.test('should generate and verify permanent witness', st => {
     const log = collations[1].logs[2]
     const witness = a.getPermanentWitness(log)
     st.ok(witness.topRoot.equals(a.topForest[0].root!.value))

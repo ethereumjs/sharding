@@ -2,7 +2,7 @@ import * as tape from 'tape'
 const ethUtil = require('ethereumjs-util')
 import DB from '../src/db'
 
-tape('DB', (t) => {
+tape('DB', t => {
   const db = new DB()
 
   const cases: Buffer[][] = []
@@ -10,7 +10,7 @@ tape('DB', (t) => {
     cases.push([ethUtil.keccak256(Buffer.from([i])), Buffer.from([i])])
   }
 
-  t.test('should put and get values', (st) => {
+  t.test('should put and get values', st => {
     for (const c of cases) {
       db.put(c[0], c[1])
     }

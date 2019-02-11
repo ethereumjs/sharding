@@ -5,7 +5,7 @@ const VM = require('ethereumjs-vm')
 const { promisify } = require('util')
 const Tx = require('ethereumjs-tx')
 
-tape('Stateless', async (t) => {
+tape('Stateless', async t => {
   let tx = createTx()
   const vm = new VM()
   const putAccountP = promisify(vm.stateManager.putAccount.bind(vm.stateManager))
@@ -34,7 +34,10 @@ tape('Stateless', async (t) => {
 })
 
 function createTx() {
-  const privateKey = Buffer.from('e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109', 'hex')
+  const privateKey = Buffer.from(
+    'e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109',
+    'hex',
+  )
   const to = '0000000000000000000000000000000000000001'
   const txParams = {
     nonce: '0x00',
@@ -44,7 +47,7 @@ function createTx() {
     value: '0x11',
     // data: '0x7f7465737432000000000000000000000000000000000000000000000000000000600057',
     data: '0x00',
-    chainId: 3
+    chainId: 3,
   }
 
   const tx = new Tx(txParams)

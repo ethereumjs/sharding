@@ -18,7 +18,7 @@ export async function attachTxWitness(trie: any, tx: any) {
 export async function verifyTx(tx: any) {
   const { rawTx, preStateRoot, postStateRoot, accessList, witnesses } = tx
   if (accessList.length !== witnesses.length) {
-    throw new Error('Tx witnesses do\'nt match the access list')
+    throw new Error("Tx witnesses don't match the access list")
   }
 
   // Verify witnesses and add the leaves they prove

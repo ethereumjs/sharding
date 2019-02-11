@@ -136,7 +136,6 @@ export default class DBMA {
   }
 
   verifyPermanentWitness(witness: PermanentWitness): boolean {
-    const topTree = this.getTopTree(witness.topRoot)
     if (!MerkleTree.verify(witness.topRoot, witness.topProof)) {
       return false
     }
