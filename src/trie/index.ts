@@ -6,6 +6,10 @@ const ethUtil = require('ethereumjs-util')
 const MPT = require('merkle-patricia-tree/secure')
 const { prove, verifyProof } = require('merkle-patricia-tree/proof')
 
+/**
+ * Wrapper around SecureTrie from merkle-patricia-tree, which
+ * promisifies methods and hashes the key for prove and verifyProof.
+ */
 export default class Trie {
   wrapped: any
 
@@ -13,18 +17,18 @@ export default class Trie {
     this.wrapped = wrapped
   }
 
-  static prove(trie: any, key: Buffer) {
+  static verifyProof(rootHash: Buffer, key: Buffer, proof: Buffer[]) {
+    const hash = ethUtil.keccak256(key)
+    const p = promisify(verifyProof)
+    return p(rootHash, hash, proof)
+  }
+
+  prove(key: Buffer) {
     // TODO: remove hashing when [#79](https://github.com/ethereumjs/merkle-patricia-tree/pull/79)
     // is released.
     const hash = ethUtil.keccak256(key)
     const p = promisify(prove)
-    return p(trie, hash)
-  }
-
-  static verifyProof(rootHash: Buffer, key: Buffer, proof: any) {
-    const hash = ethUtil.keccak256(key)
-    const p = promisify(verifyProof)
-    return p(rootHash, hash, proof)
+    return p(this.wrapped, hash)
   }
 
   get(key: Buffer) {

@@ -2,6 +2,7 @@ import test from 'ava'
 import Account from 'ethereumjs-account'
 import { attachTxWitness, verifyTx } from '../src/stateless'
 import State from '../src/state'
+import Trie from '../src/trie'
 import VM from '../src/vm'
 const Tx = require('ethereumjs-tx')
 
@@ -18,7 +19,7 @@ test('Stateless', async t => {
   await state.flush()
 
   tx = { rawTx: tx, accessList: [fromAddr, toAddr] }
-  tx = await attachTxWitness(state.wrapped._trie, tx)
+  tx = await attachTxWitness(new Trie(state.wrapped._trie), tx)
 
   const vm = VM.fromState(state)
   const preStateRoot = await state.getStateRoot()

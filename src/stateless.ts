@@ -7,10 +7,10 @@ const ethUtil = require('ethereumjs-util')
 import Trie from './trie'
 import VM from './vm'
 
-export async function attachTxWitness(trie: any, tx: any) {
+export async function attachTxWitness(trie: Trie, tx: any) {
   const witnesses = []
   for (const account of tx.accessList) {
-    const witness = await Trie.prove(trie, account)
+    const witness = await trie.prove(account)
     witnesses.push(witness)
   }
 
