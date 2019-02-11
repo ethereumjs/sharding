@@ -41,7 +41,7 @@ Binary Merkle tree which uses keccak256 as hash function.
 
 ⊕ **new MerkleTree**(): [MerkleTree](merkle.merkletree.md)
 
-*Defined in [merkle/tree.ts:13](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L13)*
+*Defined in [merkle/tree.ts:13](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L13)*
 
 **Returns:** [MerkleTree](merkle.merkletree.md)
 
@@ -55,16 +55,16 @@ ___
 
 **● leaves**: *`any`*
 
-*Defined in [merkle/tree.ts:13](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L13)*
+*Defined in [merkle/tree.ts:13](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L13)*
 
 ___
 <a id="root"></a>
 
 ###  root
 
-**● root**: *[Node](merkle.node.md) \| `null`*
+**● root**: *[Node](merkle.node.md)*
 
-*Defined in [merkle/tree.ts:12](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L12)*
+*Defined in [merkle/tree.ts:12](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L12)*
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 ▸ **hasLeaf**(leaf: *`Buffer`*): `boolean`
 
-*Defined in [merkle/tree.ts:123](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L123)*
+*Defined in [merkle/tree.ts:114](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L114)*
 
 **Parameters:**
 
@@ -93,7 +93,7 @@ ___
 
 ▸ **prove**(leaf: *`Buffer`*): `object`[]
 
-*Defined in [merkle/tree.ts:93](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L93)*
+*Defined in [merkle/tree.ts:92](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L92)*
 
 **Parameters:**
 
@@ -110,7 +110,7 @@ ___
 
 ▸ **toRLP**(): `Buffer`
 
-*Defined in [merkle/tree.ts:131](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L131)*
+*Defined in [merkle/tree.ts:122](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L122)*
 
 Serializes tree to RLP. Serialized version includes the leaves and the root hash (for verification).
 
@@ -123,7 +123,7 @@ ___
 
 ▸ **verify**(branch: *`any`*): `boolean`
 
-*Defined in [merkle/tree.ts:115](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L115)*
+*Defined in [merkle/tree.ts:110](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L110)*
 
 **Parameters:**
 
@@ -140,7 +140,7 @@ ___
 
 ▸ **_hashSiblings**(n1: *`any`*, n2: *`any`*): `Buffer`
 
-*Defined in [merkle/tree.ts:144](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L144)*
+*Defined in [merkle/tree.ts:131](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L131)*
 
 **Parameters:**
 
@@ -158,7 +158,7 @@ ___
 
 ▸ **computeRootFromLeaves**(leaves: *[Node](merkle.node.md)[]*): [Node](merkle.node.md)
 
-*Defined in [merkle/tree.ts:42](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L42)*
+*Defined in [merkle/tree.ts:41](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L41)*
 
 **Parameters:**
 
@@ -175,7 +175,7 @@ ___
 
 ▸ **fromLeaves**(leaves: *`Buffer`[]*): [MerkleTree](merkle.merkletree.md)
 
-*Defined in [merkle/tree.ts:24](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L24)*
+*Defined in [merkle/tree.ts:24](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L24)*
 
 Construct Merkle tree from its leaves.
 
@@ -194,7 +194,7 @@ ___
 
 ▸ **fromRLP**(buf: *`Buffer`*): [MerkleTree](merkle.merkletree.md)
 
-*Defined in [merkle/tree.ts:68](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L68)*
+*Defined in [merkle/tree.ts:67](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L67)*
 
 Constructs tree from a RLP-encoded buffer which contains the root and leaf values as an array.
 
@@ -213,7 +213,7 @@ ___
 
 ▸ **verify**(root: *`Buffer`*, branch: *`any`*): `boolean`
 
-*Defined in [merkle/tree.ts:78](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/tree.ts#L78)*
+*Defined in [merkle/tree.ts:77](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/tree.ts#L77)*
 
 **Parameters:**
 

@@ -29,7 +29,7 @@ Simplified abstract of a shard collation.
 
 ⊕ **new Collation**(n: *`number`*, logs: *`Buffer`[]*): [Collation](_collation_.collation.md)
 
-*Defined in [collation.ts:6](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/collation.ts#L6)*
+*Defined in [collation.ts:6](https://github.com/ethereumjs/sharding/blob/1ee551a/src/collation.ts#L6)*
 
 **Parameters:**
 
@@ -50,7 +50,7 @@ ___
 
 **● logs**: *`Buffer`[]*
 
-*Defined in [collation.ts:6](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/collation.ts#L6)*
+*Defined in [collation.ts:6](https://github.com/ethereumjs/sharding/blob/1ee551a/src/collation.ts#L6)*
 
 ___
 <a id="n"></a>
@@ -59,7 +59,7 @@ ___
 
 **● n**: *`number`*
 
-*Defined in [collation.ts:5](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/collation.ts#L5)*
+*Defined in [collation.ts:5](https://github.com/ethereumjs/sharding/blob/1ee551a/src/collation.ts#L5)*
 
 ___
 

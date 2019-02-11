@@ -32,7 +32,7 @@
 
 ⊕ **new DB**(): [DB](db.db-1.md)
 
-*Defined in [db/index.ts:5](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/db/index.ts#L5)*
+*Defined in [db/index.ts:5](https://github.com/ethereumjs/sharding/blob/1ee551a/src/db/index.ts#L5)*
 
 **Returns:** [DB](db.db-1.md)
 
@@ -46,7 +46,7 @@ ___
 
 **● _db**: *`Map`<`string`, `Buffer`>*
 
-*Defined in [db/index.ts:5](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/db/index.ts#L5)*
+*Defined in [db/index.ts:5](https://github.com/ethereumjs/sharding/blob/1ee551a/src/db/index.ts#L5)*
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 ▸ **del**(key: *`Buffer`*): `boolean`
 
-*Defined in [db/index.ts:19](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/db/index.ts#L19)*
+*Defined in [db/index.ts:19](https://github.com/ethereumjs/sharding/blob/1ee551a/src/db/index.ts#L19)*
 
 **Parameters:**
 
@@ -75,7 +75,7 @@ ___
 
 ▸ **get**(key: *`Buffer`*): `Buffer` \| `undefined`
 
-*Defined in [db/index.ts:15](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/db/index.ts#L15)*
+*Defined in [db/index.ts:15](https://github.com/ethereumjs/sharding/blob/1ee551a/src/db/index.ts#L15)*
 
 **Parameters:**
 
@@ -92,7 +92,7 @@ ___
 
 ▸ **put**(key: *`Buffer`*, value: *`Buffer`*): `void`
 
-*Defined in [db/index.ts:11](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/db/index.ts#L11)*
+*Defined in [db/index.ts:11](https://github.com/ethereumjs/sharding/blob/1ee551a/src/db/index.ts#L11)*
 
 **Parameters:**
 

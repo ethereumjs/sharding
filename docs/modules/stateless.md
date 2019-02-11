@@ -17,15 +17,15 @@
 
 ###  attachTxWitness
 
-▸ **attachTxWitness**(trie: *`any`*, tx: *`any`*): `Promise`<`any`>
+▸ **attachTxWitness**(trie: *[Trie](../classes/trie.trie-1.md)*, tx: *`any`*): `Promise`<`any`>
 
-*Defined in [stateless.ts:10](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/stateless.ts#L10)*
+*Defined in [stateless.ts:10](https://github.com/ethereumjs/sharding/blob/1ee551a/src/stateless.ts#L10)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| trie | `any` |
+| trie | [Trie](../classes/trie.trie-1.md) |
 | tx | `any` |
 
 **Returns:** `Promise`<`any`>
@@ -37,7 +37,7 @@ ___
 
 ▸ **verifyTx**(tx: *`any`*): `Promise`<`boolean`>
 
-*Defined in [stateless.ts:21](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/stateless.ts#L21)*
+*Defined in [stateless.ts:21](https://github.com/ethereumjs/sharding/blob/1ee551a/src/stateless.ts#L21)*
 
 **Parameters:**
 

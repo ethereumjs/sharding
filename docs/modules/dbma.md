@@ -8,5 +8,10 @@
 
 * [DBMA](../classes/dbma.dbma-1.md)
 
+### Interfaces
+
+* [PermanentWitness](../interfaces/dbma.permanentwitness.md)
+* [PreWitness](../interfaces/dbma.prewitness.md)
+
 ---
 

@@ -32,7 +32,6 @@ Double-batched Merkle log accumulator. [https://ethresear.ch/t/double-batched-me
 * [addLogs](dbma.dbma-1.md#addlogs)
 * [getPermanentWitness](dbma.dbma-1.md#getpermanentwitness)
 * [getPreWitness](dbma.dbma-1.md#getprewitness)
-* [getTopTree](dbma.dbma-1.md#gettoptree)
 * [verifyPermanentWitness](dbma.dbma-1.md#verifypermanentwitness)
 * [verifyPreWitness](dbma.dbma-1.md#verifyprewitness)
 
@@ -46,7 +45,7 @@ Double-batched Merkle log accumulator. [https://ethresear.ch/t/double-batched-me
 
 ⊕ **new DBMA**(bottomBufferSize?: *`number`*): [DBMA](dbma.dbma-1.md)
 
-*Defined in [dbma.ts:28](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L28)*
+*Defined in [dbma.ts:28](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L28)*
 
 **Parameters:**
 
@@ -66,7 +65,7 @@ ___
 
 **● bottomBufferSize**: *`number`*
 
-*Defined in [dbma.ts:26](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L26)*
+*Defined in [dbma.ts:26](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L26)*
 
 ___
 <a id="bottomforest"></a>
@@ -75,7 +74,7 @@ ___
 
 **● bottomForest**: *[MerkleTree](merkle.merkletree.md)[]*
 
-*Defined in [dbma.ts:24](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L24)*
+*Defined in [dbma.ts:24](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L24)*
 
 ___
 <a id="bottomidx"></a>
@@ -84,7 +83,7 @@ ___
 
 **● bottomIdx**: *`number`*
 
-*Defined in [dbma.ts:25](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L25)*
+*Defined in [dbma.ts:25](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L25)*
 
 ___
 <a id="db"></a>
@@ -93,7 +92,7 @@ ___
 
 **● db**: *[DB](db.db-1.md)*
 
-*Defined in [dbma.ts:28](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L28)*
+*Defined in [dbma.ts:28](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L28)*
 
 ___
 <a id="topforest"></a>
@@ -102,7 +101,7 @@ ___
 
 **● topForest**: *[MerkleTree](merkle.merkletree.md)[]*
 
-*Defined in [dbma.ts:27](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L27)*
+*Defined in [dbma.ts:27](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L27)*
 
 ___
 
@@ -114,7 +113,7 @@ ___
 
 getbottomBuffer(): `Buffer`[]
 
-*Defined in [dbma.ts:38](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L38)*
+*Defined in [dbma.ts:38](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L38)*
 
 **Returns:** `Buffer`[]
 
@@ -125,7 +124,7 @@ ___
 
 gettopBuffer(): `Buffer`[]
 
-*Defined in [dbma.ts:47](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L47)*
+*Defined in [dbma.ts:46](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L46)*
 
 **Returns:** `Buffer`[]
 
@@ -139,7 +138,9 @@ ___
 
 ▸ **addLogs**(logs: *`Buffer`[]*): `void`
 
-*Defined in [dbma.ts:56](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L56)*
+*Defined in [dbma.ts:61](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L61)*
+
+Adds logs to the accumulator, by forming a merkle tree out of them and adding the tree to the bottom buffer. If capacity of bottom buffer is filled, forms a merkle tree out of bottom buffer and adds it to the top buffer.
 
 **Parameters:**
 
@@ -154,9 +155,9 @@ ___
 
 ###  getPermanentWitness
 
-▸ **getPermanentWitness**(log: *`Buffer`*): `PermanentWitness`
+▸ **getPermanentWitness**(log: *`Buffer`*): [PermanentWitness](../interfaces/dbma.permanentwitness.md)
 
-*Defined in [dbma.ts:96](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L96)*
+*Defined in [dbma.ts:96](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L96)*
 
 Return permanent witness for log. This witness can be generated only after the log has been accumulated in the top buffer.
 
@@ -166,16 +167,16 @@ Return permanent witness for log. This witness can be generated only after the l
 | ------ | ------ |
 | log | `Buffer` |
 
-**Returns:** `PermanentWitness`
+**Returns:** [PermanentWitness](../interfaces/dbma.permanentwitness.md)
 
 ___
 <a id="getprewitness"></a>
 
 ###  getPreWitness
 
-▸ **getPreWitness**(log: *`Buffer`*): `PreWitness`
+▸ **getPreWitness**(log: *`Buffer`*): [PreWitness](../interfaces/dbma.prewitness.md)
 
-*Defined in [dbma.ts:74](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L74)*
+*Defined in [dbma.ts:78](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L78)*
 
 Pre-witness is a temporary witness, which is valid before a log has been added to the top buffer.
 
@@ -185,39 +186,24 @@ Pre-witness is a temporary witness, which is valid before a log has been added t
 | ------ | ------ |
 | log | `Buffer` |
 
-**Returns:** `PreWitness`
-
-___
-<a id="gettoptree"></a>
-
-###  getTopTree
-
-▸ **getTopTree**(root: *`Buffer`*): [MerkleTree](merkle.merkletree.md)
-
-*Defined in [dbma.ts:148](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L148)*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| root | `Buffer` |
-
-**Returns:** [MerkleTree](merkle.merkletree.md)
+**Returns:** [PreWitness](../interfaces/dbma.prewitness.md)
 
 ___
 <a id="verifypermanentwitness"></a>
 
 ###  verifyPermanentWitness
 
-▸ **verifyPermanentWitness**(witness: *`PermanentWitness`*): `boolean`
+▸ **verifyPermanentWitness**(witness: *[PermanentWitness](../interfaces/dbma.permanentwitness.md)*): `boolean`
 
-*Defined in [dbma.ts:141](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L141)*
+*Defined in [dbma.ts:147](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L147)*
+
+Verifies a permanent witness by checking top and bottom merkle branches. It further checks that the top merkle leaf is the same as the bottom tree root.
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| witness | `PermanentWitness` |
+| witness | [PermanentWitness](../interfaces/dbma.permanentwitness.md) |
 
 **Returns:** `boolean`
 
@@ -226,15 +212,17 @@ ___
 
 ###  verifyPreWitness
 
-▸ **verifyPreWitness**(witness: *`PreWitness`*): `boolean`
+▸ **verifyPreWitness**(witness: *[PreWitness](../interfaces/dbma.prewitness.md)*): `boolean`
 
-*Defined in [dbma.ts:128](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/dbma.ts#L128)*
+*Defined in [dbma.ts:130](https://github.com/ethereumjs/sharding/blob/1ee551a/src/dbma.ts#L130)*
+
+Verifies a pre-witness, by finding the bottom tree that has the same root as in witness, and then verifies the merkle branch.
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| witness | `PreWitness` |
+| witness | [PreWitness](../interfaces/dbma.prewitness.md) |
 
 **Returns:** `boolean`
 

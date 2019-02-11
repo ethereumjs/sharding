@@ -32,7 +32,7 @@ Abstraction of a historical object (e.g. tx receipts). For simplification assume
 
 ⊕ **new Log**(id: *`number`*): [Log](_log_.log.md)
 
-*Defined in [log.ts:8](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/log.ts#L8)*
+*Defined in [log.ts:8](https://github.com/ethereumjs/sharding/blob/1ee551a/src/log.ts#L8)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 **● id**: *`number`*
 
-*Defined in [log.ts:8](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/log.ts#L8)*
+*Defined in [log.ts:8](https://github.com/ethereumjs/sharding/blob/1ee551a/src/log.ts#L8)*
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 ▸ **hash**(): `any`
 
-*Defined in [log.ts:14](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/log.ts#L14)*
+*Defined in [log.ts:14](https://github.com/ethereumjs/sharding/blob/1ee551a/src/log.ts#L14)*
 
 **Returns:** `any`
 

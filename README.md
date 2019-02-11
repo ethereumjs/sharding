@@ -6,9 +6,11 @@ This project aims to implement a PoC for some of the sharding proposals, includi
 - [The stateless client concept](https://ethresear.ch/t/the-stateless-client-concept/172)
 
 ## API
+
 [./docs](./docs/README.md)
 
 ## Test
+
 To run the tests:
 
 ```sh

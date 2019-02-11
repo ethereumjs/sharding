@@ -2,6 +2,8 @@
 
 # Class: Trie
 
+Wrapper around SecureTrie from merkle-patricia-tree, which promisifies methods and hashes the key for prove and verifyProof.
+
 ## Hierarchy
 
 **Trie**
@@ -19,9 +21,9 @@
 ### Methods
 
 * [get](trie.trie-1.md#get)
+* [prove](trie.trie-1.md#prove)
 * [put](trie.trie-1.md#put)
 * [putRaw](trie.trie-1.md#putraw)
-* [prove](trie.trie-1.md#prove)
 * [verifyProof](trie.trie-1.md#verifyproof)
 
 ---
@@ -34,7 +36,7 @@
 
 ⊕ **new Trie**(wrapped?: *`any`*): [Trie](trie.trie-1.md)
 
-*Defined in [trie/index.ts:10](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/trie/index.ts#L10)*
+*Defined in [trie/index.ts:14](https://github.com/ethereumjs/sharding/blob/1ee551a/src/trie/index.ts#L14)*
 
 **Parameters:**
 
@@ -54,7 +56,7 @@ ___
 
 **● wrapped**: *`any`*
 
-*Defined in [trie/index.ts:10](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/trie/index.ts#L10)*
+*Defined in [trie/index.ts:14](https://github.com/ethereumjs/sharding/blob/1ee551a/src/trie/index.ts#L14)*
 
 ___
 
@@ -66,7 +68,24 @@ ___
 
 ▸ **get**(key: *`Buffer`*): `any`
 
-*Defined in [trie/index.ts:30](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/trie/index.ts#L30)*
+*Defined in [trie/index.ts:34](https://github.com/ethereumjs/sharding/blob/1ee551a/src/trie/index.ts#L34)*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| key | `Buffer` |
+
+**Returns:** `any`
+
+___
+<a id="prove"></a>
+
+###  prove
+
+▸ **prove**(key: *`Buffer`*): `any`
+
+*Defined in [trie/index.ts:26](https://github.com/ethereumjs/sharding/blob/1ee551a/src/trie/index.ts#L26)*
 
 **Parameters:**
 
@@ -83,7 +102,7 @@ ___
 
 ▸ **put**(key: *`Buffer`*, value: *`Buffer`*): `any`
 
-*Defined in [trie/index.ts:35](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/trie/index.ts#L35)*
+*Defined in [trie/index.ts:39](https://github.com/ethereumjs/sharding/blob/1ee551a/src/trie/index.ts#L39)*
 
 **Parameters:**
 
@@ -101,7 +120,7 @@ ___
 
 ▸ **putRaw**(key: *`Buffer`*, value: *`Buffer`*): `any`
 
-*Defined in [trie/index.ts:40](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/trie/index.ts#L40)*
+*Defined in [trie/index.ts:44](https://github.com/ethereumjs/sharding/blob/1ee551a/src/trie/index.ts#L44)*
 
 **Parameters:**
 
@@ -113,31 +132,13 @@ ___
 **Returns:** `any`
 
 ___
-<a id="prove"></a>
-
-### `<Static>` prove
-
-▸ **prove**(trie: *`any`*, key: *`Buffer`*): `any`
-
-*Defined in [trie/index.ts:16](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/trie/index.ts#L16)*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| trie | `any` |
-| key | `Buffer` |
-
-**Returns:** `any`
-
-___
 <a id="verifyproof"></a>
 
 ### `<Static>` verifyProof
 
-▸ **verifyProof**(rootHash: *`Buffer`*, key: *`Buffer`*, proof: *`any`*): `any`
+▸ **verifyProof**(rootHash: *`Buffer`*, key: *`Buffer`*, proof: *`Buffer`[]*): `any`
 
-*Defined in [trie/index.ts:24](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/trie/index.ts#L24)*
+*Defined in [trie/index.ts:20](https://github.com/ethereumjs/sharding/blob/1ee551a/src/trie/index.ts#L20)*
 
 **Parameters:**
 
@@ -145,7 +146,7 @@ ___
 | ------ | ------ |
 | rootHash | `Buffer` |
 | key | `Buffer` |
-| proof | `any` |
+| proof | `Buffer`[] |
 
 **Returns:** `any`
 

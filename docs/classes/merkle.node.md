@@ -34,7 +34,7 @@
 
 ⊕ **new Node**(value: *`Buffer`*, children?: *[Node](merkle.node.md)[]*): [Node](merkle.node.md)
 
-*Defined in [merkle/node.ts:7](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/node.ts#L7)*
+*Defined in [merkle/node.ts:7](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/node.ts#L7)*
 
 **Parameters:**
 
@@ -55,7 +55,7 @@ ___
 
 **● children**: *[Node](merkle.node.md)[]*
 
-*Defined in [merkle/node.ts:6](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/node.ts#L6)*
+*Defined in [merkle/node.ts:6](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/node.ts#L6)*
 
 ___
 <a id="parent"></a>
@@ -64,7 +64,7 @@ ___
 
 **● parent**: *[Node](merkle.node.md) \| `null`*
 
-*Defined in [merkle/node.ts:7](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/node.ts#L7)*
+*Defined in [merkle/node.ts:7](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/node.ts#L7)*
 
 ___
 <a id="value"></a>
@@ -73,7 +73,7 @@ ___
 
 **● value**: *`Buffer`*
 
-*Defined in [merkle/node.ts:5](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/node.ts#L5)*
+*Defined in [merkle/node.ts:5](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/node.ts#L5)*
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 ▸ **getPosition**(): "left" \| "right"
 
-*Defined in [merkle/node.ts:31](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/node.ts#L31)*
+*Defined in [merkle/node.ts:31](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/node.ts#L31)*
 
 **Returns:** "left" \| "right"
 
@@ -96,7 +96,7 @@ ___
 
 ▸ **getSibling**(): [Node](merkle.node.md)
 
-*Defined in [merkle/node.ts:19](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/node.ts#L19)*
+*Defined in [merkle/node.ts:19](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/node.ts#L19)*
 
 **Returns:** [Node](merkle.node.md)
 
@@ -107,7 +107,7 @@ ___
 
 ▸ **isLeaf**(): `boolean`
 
-*Defined in [merkle/node.ts:15](https://github.com/ethereumjs/sharding/blob/77a3ca9/src/merkle/node.ts#L15)*
+*Defined in [merkle/node.ts:15](https://github.com/ethereumjs/sharding/blob/1ee551a/src/merkle/node.ts#L15)*
 
 **Returns:** `boolean`
 
