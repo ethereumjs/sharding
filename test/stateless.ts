@@ -3,18 +3,13 @@ import Account from 'ethereumjs-account'
 import { attachTxWitness, verifyTx } from '../src/stateless'
 const VM = require('ethereumjs-vm')
 const { promisify } = require('util')
-const proof = require('merkle-patricia-tree/proof')
-const ethUtil = require('ethereumjs-util')
-const RLP = require('rlp')
 const Tx = require('ethereumjs-tx')
 
 tape('Stateless', async (t) => {
   let tx = createTx()
   const vm = new VM()
   const putAccountP = promisify(vm.stateManager.putAccount.bind(vm.stateManager))
-  const getAccountP = promisify(vm.stateManager.getAccount.bind(vm.stateManager))
   const getStateRootP = promisify(vm.stateManager.getStateRoot.bind(vm.stateManager))
-  const trieGetP = promisify(vm.stateManager._trie.get.bind(vm.stateManager._trie))
   const runTxP = promisify(vm.runTx.bind(vm))
   const flush = promisify(vm.stateManager._cache.flush.bind(vm.stateManager._cache))
 
