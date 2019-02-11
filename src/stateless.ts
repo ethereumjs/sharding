@@ -1,3 +1,8 @@
+/**
+ * @module stateless
+ *
+ * https://ethresear.ch/t/the-stateless-client-concept/172
+ */
 const ethUtil = require('ethereumjs-util')
 import Trie from './trie'
 import VM from './vm'

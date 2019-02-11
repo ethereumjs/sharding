@@ -19,7 +19,8 @@
     "tslint:fix": "ethereumjs-config-tslint-fix",
     "lint": "ethereumjs-config-lint",
     "lint:fix": "ethereumjs-config-lint-fix",
-    "test": "ava"
+    "test": "ava",
+    "docs": "typedoc --out docs --mode modules --theme markdown --excludeNotExported src"
   },
   "ava": {
     "compileEnhancements": false,
@@ -44,6 +45,9 @@
     "prettier": "^1.16.4",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
+    "typedoc": "^0.14.2",
+    "typedoc-plugin-external-module-name": "^2.0.0",
+    "typedoc-plugin-markdown": "^1.1.26",
     "typescript": "^3.3.1",
     "typestrict": "^1.0.2"
   },

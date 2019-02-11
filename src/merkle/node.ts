@@ -1,3 +1,6 @@
+/**
+ * @module merkle
+ */
 export default class Node {
   value: Buffer
   children: Node[]

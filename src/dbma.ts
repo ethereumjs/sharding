@@ -1,3 +1,6 @@
+/**
+ * @module dbma
+ */
 import MerkleTree from './merkle'
 import DB from './db'
 

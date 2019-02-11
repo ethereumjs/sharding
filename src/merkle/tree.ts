@@ -1,3 +1,6 @@
+/**
+ * @module merkle
+ */
 const ethUtil = require('ethereumjs-util')
 import { encode, decode, Input } from 'rlp'
 import Node from './node'

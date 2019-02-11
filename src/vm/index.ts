@@ -1,3 +1,6 @@
+/**
+ * @module vm
+ */
 const { promisify } = require('util')
 const VM1 = require('ethereumjs-vm')
 import State from '../state'

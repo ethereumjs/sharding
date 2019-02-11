@@ -1,3 +1,6 @@
+/**
+ * @module db
+ */
 export default class DB {
   _db: Map<string, Buffer>
 

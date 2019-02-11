@@ -1,3 +1,6 @@
+/**
+ * @module trie
+ */
 const { promisify } = require('util')
 const ethUtil = require('ethereumjs-util')
 const MPT = require('merkle-patricia-tree/secure')

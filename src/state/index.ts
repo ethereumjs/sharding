@@ -1,3 +1,6 @@
+/**
+ * @module state
+ */
 const { promisify } = require('util')
 const StateManager = require('ethereumjs-vm/dist/stateManager')
 import Account from 'ethereumjs-account'
