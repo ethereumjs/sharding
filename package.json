@@ -40,6 +40,7 @@
     "@ethereumjs/config-tslint": "^1.1.0",
     "@types/bn.js": "^4.11.4",
     "@types/node": "^10.12.21",
+    "@types/webassembly-js-api": "0.0.2",
     "ava": "^1.2.1",
     "nyc": "^13.2.0",
     "prettier": "^1.16.4",
