@@ -5,6 +5,9 @@ const assert = require('assert')
 import BN = require('bn.js')
 import { VmError, ERROR, FinishExecution } from '../../exceptions'
 import Memory from '../memory'
+import { OPCODE } from '../../../assembly/opcode'
+
+const ENV_CONTRACT = Buffer.from([0x10])
 
 export default class Minimal {
   init: Buffer
@@ -48,7 +51,18 @@ export default class Minimal {
     const address = this._memory.read(addressOffset, 1)
     const value = this._memory.read(valueOffset, 1)
     const data = this._memory.read(dataOffset, dataLength)
-    console.log('call', address, value, data)
+
+    // Special contract call for fetching env data
+    // NOTE: currently, contracts should send evm opcode
+    // (e.g. 0x43 for NUMBER) as data.
+    if (Buffer.from(address).equals(ENV_CONTRACT)) {
+      if (Buffer.from(data).equals(Buffer.from([OPCODE.NUMBER]))) {
+        return this._data.blockNumber
+      }
+    } else {
+      throw new VmError('Not implemented')
+    }
+
     return 0
   }
 

@@ -71,13 +71,14 @@ test('should store/load memory', t => {
   t.deepEqual(res.return, Buffer.from([val]))
 })
 
-test('should call', t => {
+test('should get block number via call', t => {
   const c = new Contract(wasm)
+  const blockNumber = 0x05
   const address = 0x10
   const addressOffset = 0xf0
   const value = 0x00
   const valueOffset = 0xf1
-  const data = 0xab
+  const data = OP.NUMBER
   const dataOffset = 0xf2
   const dataLength = 0x01
   const bytecode = Buffer.from([
@@ -108,8 +109,8 @@ test('should call', t => {
     OP.RETURN,
     OP.STOP,
   ])
-  const iface = new Interface({ init: bytecode })
+  const iface = new Interface({ init: bytecode, blockNumber })
   const res = c.run(iface)
   t.is(res.exception, 1)
-  t.deepEqual(res.return, Buffer.from([0x00]))
+  t.deepEqual(res.return, Buffer.from([blockNumber]))
 })

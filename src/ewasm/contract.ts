@@ -24,7 +24,7 @@ export default class Contract {
   /**
    * Instantiates the module, providing a subset of EEI as
    * imports, and then executes the exported `main` function.
-   * @param opts - Environment data required for the call
+   * @param env - Interface which contracts have access to
    * @returns result of execution as an Object.
    */
   run(env: Interface) {
