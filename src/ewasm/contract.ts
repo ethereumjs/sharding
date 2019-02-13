@@ -2,7 +2,7 @@
  * @module ewasm
  */
 const assert = require('assert')
-import Env from './env'
+import Interface from './interface'
 import Memory from './memory'
 
 /**
@@ -27,20 +27,31 @@ export default class Contract {
    * @param opts - Environment data required for the call
    * @returns result of execution as an Object.
    */
-  run(opts: any) {
-    const env = new Env(opts)
-
+  run(env: Interface) {
     const instance = new WebAssembly.Instance(this._module, env.imports)
 
     assert(instance.exports.main, 'Wasm module has no main function')
     assert(instance.exports.memory, 'Wasm module has no memory exported')
+
+    // Set calldata at the beginning of module's memory
+    if (env.init.length > 0) {
+      let mem = new Uint8Array(instance.exports.memory.buffer)
+      // grow memory if necessary
+      if (mem.length < env.init.length) {
+        instance.exports.memory.grow(Math.ceil((env.init.length - mem.length) / 65536))
+        mem = new Uint8Array(instance.exports.memory.buffer)
+      }
+
+      // copy buffer to memory
+      mem.set(env.init)
+    }
 
     const memory = new Memory(instance.exports.memory)
     env.setMemory(memory)
 
     // Run contract. It throws even on successful finish.
     try {
-      instance.exports.main()
+      instance.exports.main(env.init ? env.init.length : 0)
     } catch (e) {
       if (e.errorType !== 'VmError' && e.errorType !== 'FinishExecution') {
         throw e

@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const BN = require('bn.js')
 import { Contract } from '../../src/ewasm'
+import { default as Interface } from '../../src/ewasm/interface/eei'
 
 test('should run keccak256 and return correct result', t => {
   const keccak256Wasm = fs.readFileSync(
@@ -17,7 +18,8 @@ test('should run keccak256 and return correct result', t => {
   }
 
   const c = new Contract(keccak256Wasm)
-  const res = c.run(runData)
+  const iface = new Interface(runData)
+  const res = c.run(iface)
 
   t.is(res.exception, 1)
   t.deepEqual(

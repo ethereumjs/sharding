@@ -20,7 +20,10 @@
     "lint": "ethereumjs-config-lint",
     "lint:fix": "ethereumjs-config-lint-fix",
     "test": "ava",
-    "docs": "typedoc --out docs --mode modules --theme markdown --excludeNotExported src"
+    "docs": "typedoc --out docs --mode modules --theme markdown --excludeNotExported src",
+    "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
+    "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized"
   },
   "ava": {
     "compileEnhancements": false,
@@ -41,6 +44,7 @@
     "@types/bn.js": "^4.11.4",
     "@types/node": "^10.12.21",
     "@types/webassembly-js-api": "0.0.2",
+    "assemblyscript": "github:AssemblyScript/assemblyscript",
     "ava": "^1.2.1",
     "nyc": "^13.2.0",
     "prettier": "^1.16.4",

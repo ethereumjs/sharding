@@ -1,0 +1,13 @@
+export const enum OPCODE {
+  STOP = 0x00,
+  ADD = 0x01,
+  MUL = 0x02,
+  SUB = 0x03,
+  DIV = 0x04,
+  NUMBER = 0x43,
+  MLOAD = 0x51,
+  MSTORE8 = 0x53,
+  PUSH1 = 0x60,
+  CALL = 0xf1,
+  RETURN = 0xf3,
+}
