@@ -74,6 +74,11 @@ export default class Minimal {
     this._memory.write(resultOffset, length, data)
   }
 
+  /**
+   * Store 256-bit a value in memory to persistent storage.
+   * @param pathOffset - The memory offset to load the path from
+   * @param valueOffset - The memory offset to load the value from
+   */
   storageStore(pathOffset: number, valueOffset: number) {
     const path = this._memory.read(pathOffset, 1)
     const v = this._memory.read(valueOffset, 1)

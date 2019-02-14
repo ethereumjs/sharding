@@ -35,7 +35,9 @@
  (global $~lib/allocator/tlsf/LEFT_FREE i32 (i32.const 2))
  (global $~lib/allocator/tlsf/TAGS i32 (i32.const 3))
  (global $~lib/allocator/tlsf/ROOT (mut i32) (i32.const 0))
+ (global $assembly/index/ENV_CONTRACT i32 (i32.const 16))
  (global $assembly/index/inputPtr (mut i32) (i32.const 0))
+ (global $assembly/index/resultPtr (mut i32) (i32.const 0))
  (global $assembly/index/pc (mut i32) (i32.const 0))
  (global $~lib/internal/arraybuffer/HEADER_SIZE i32 (i32.const 8))
  (global $~lib/internal/arraybuffer/MAX_BLENGTH i32 (i32.const 1073741816))
@@ -48,8 +50,6 @@
  (global $~lib/allocator/tlsf/Block.MIN_SIZE i32 (i32.const 16))
  (global $~lib/allocator/tlsf/Block.MAX_SIZE i32 (i32.const 1073741824))
  (global $assembly/index/stack (mut i32) (i32.const 0))
- (global $assembly/index/resultPtr (mut i32) (i32.const 0))
- (global $assembly/index/ENV_CONTRACT i32 (i32.const 16))
  (global $assembly/opcode/OPCODE.STOP i32 (i32.const 0))
  (global $assembly/opcode/OPCODE.ADD i32 (i32.const 1))
  (global $assembly/opcode/OPCODE.MUL i32 (i32.const 2))
@@ -3565,6 +3565,7 @@
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
+  (local $6 i32)
   block $~lib/memory/memory.allocate|inlined.2 (result i32)
    i32.const 1
    local.set $3
@@ -3589,6 +3590,8 @@
    br $~lib/memory/memory.allocate|inlined.4
   end
   local.set $5
+  i32.const 1
+  local.set $6
   local.get $3
   local.get $0
   i32.store8
@@ -3601,7 +3604,7 @@
   local.get $3
   local.get $4
   local.get $5
-  i32.const 1
+  local.get $6
   call $assembly/ethereum/call
  )
  (func $assembly/index/runOpcode (; 40 ;) (type $i_) (param $0 i32)
@@ -3775,7 +3778,7 @@
            unreachable
           end
           block
-           i32.const 16
+           global.get $assembly/index/ENV_CONTRACT
            i32.const 0
            i32.const 67
            call $assembly/index/call

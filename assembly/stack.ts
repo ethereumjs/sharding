@@ -36,7 +36,7 @@ export class Stack {
       unreachable()
     }
 
-    const val = this.raw.pop()
+    let val = this.raw.pop()
     this.length--
     return val
   }
