@@ -3,6 +3,7 @@
  */
 const assert = require('assert')
 import BN = require('bn.js')
+import State from '../../state'
 import { VmError, ERROR, FinishExecution } from '../../exceptions'
 import Memory from '../memory'
 import { OPCODE } from '../../../assembly/opcode'
@@ -13,9 +14,11 @@ export default class Minimal {
   _data: any
   _results: any
   _memory: any
+  _state: State
 
-  constructor(data: any) {
+  constructor(data: any, state: State) {
     this._data = data
+    this._state = state
     this._results = {
       gasUsed: new BN(0),
     }
@@ -41,6 +44,7 @@ export default class Minimal {
     return {
       getCallDataSize: this.getCallDataSize.bind(this),
       callDataCopy: this.callDataCopy.bind(this),
+      storageLoad: this.storageLoad.bind(this),
       call: this.call.bind(this),
       finish: this.finish.bind(this),
     }
@@ -64,6 +68,17 @@ export default class Minimal {
   callDataCopy(resultOffset: number, dataOffset: number, length: number) {
     const data = this._data.data.slice(dataOffset, dataOffset + length)
     this._memory.write(resultOffset, length, data)
+  }
+
+  /**
+   * Loads a 256-bit a value to memory from persistent storage.
+   * @param pathOffset - The memory offset to load the path from
+   * @param resultOffset - The memory offset to store the result at
+   */
+  storageLoad(pathOffset: number, resultOffset: number) {
+    const path = this._memory.read(pathOffset, 1)
+    // TODO: Actually fetch from trie
+    this._memory.write(resultOffset, 1, path)
   }
 
   call(addressOffset: number, valueOffset: number, dataOffset: number, dataLength: number): number {

@@ -76,6 +76,16 @@ export function runOpcode(opcode: u8): void {
       store<u8>(offset, b)
       break
     }
+    case OPCODE.SLOAD: {
+      let keyPtr = memory.allocate(1)
+      let key = stack.pop()
+      store<u8>(keyPtr, key)
+      let resPtr = memory.allocate(1)
+      eth.storageLoad(keyPtr, resPtr)
+      let v: u8 = load<u8>(resPtr)
+      stack.push(v)
+      break
+    }
     case OPCODE.PUSH1: {
       const val: u8 = load<u8>(inputPtr + pc)
       pc++
