@@ -1,0 +1,49 @@
+{
+  "env": {
+    "blockNumber": 5
+  },
+  "cases": [
+    {
+      "calldata": "00",
+      "exception": 1,
+      "return": "00",
+      "comment": "stop"
+    },
+    {
+      "calldata": "6007600301f300",
+      "exception": 1,
+      "return": "0a",
+      "comment": "0x07 + 0x03"
+    },
+    {
+      "calldata": "609160a103603101f300",
+      "exception": 1,
+      "return": "41",
+      "comment": "(0xa1 - 0x91) + 0x31"
+    },
+    {
+      "calldata": "60ab600f53600f51f300",
+      "exception": 1,
+      "return": "ab",
+      "comment": "mstore8(0x0f, 0xab); mload(0x0f)"
+    },
+    {
+      "calldata": "604360f253600060f153601060f053600160f260f160f0f1f300",
+      "exception": 1,
+      "return": "05",
+      "comment": "call env contract to get block number"
+    },
+    {
+      "calldata": "43f300",
+      "exception": 1,
+      "return": "05",
+      "comment": "block number"
+    },
+    {
+      "calldata": "601b54f300",
+      "exception": 1,
+      "return": "1b",
+      "comment": "sload (currently returns path as result)"
+    }
+  ]
+}
