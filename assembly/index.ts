@@ -71,19 +71,31 @@ export function runOpcode(opcode: u8): void {
       break
     }
     case OPCODE.MSTORE8: {
+      // How should user determine offset?!
+      // Maybe keep pre-specified memory-range free
       const offset = stack.pop()
       const b = stack.pop()
       store<u8>(offset, b)
       break
     }
     case OPCODE.SLOAD: {
-      let keyPtr = memory.allocate(1)
       let key = stack.pop()
-      store<u8>(keyPtr, key)
+      let keyPtr = memory.allocate(1)
       let resPtr = memory.allocate(1)
+      store<u8>(keyPtr, key)
       eth.storageLoad(keyPtr, resPtr)
       let v: u8 = load<u8>(resPtr)
       stack.push(v)
+      break
+    }
+    case OPCODE.SSTORE: {
+      let key = stack.pop()
+      let val = stack.pop()
+      let keyPtr = memory.allocate(1)
+      let valPtr = memory.allocate(1)
+      store<u8>(keyPtr, key)
+      store<u8>(valPtr, val)
+      eth.storageStore(keyPtr, valPtr)
       break
     }
     case OPCODE.PUSH1: {

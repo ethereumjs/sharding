@@ -40,10 +40,10 @@
       "comment": "block number"
     },
     {
-      "calldata": "601b54f300",
+      "calldata": "601b600755600754f300",
       "exception": 1,
       "return": "1b",
-      "comment": "sload (currently returns path as result)"
+      "comment": "sstore(0x07, 0x1b); sload(0x07)"
     }
   ]
 }

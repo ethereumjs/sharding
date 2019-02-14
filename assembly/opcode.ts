@@ -8,6 +8,7 @@ export const enum OPCODE {
   MLOAD = 0x51,
   MSTORE8 = 0x53,
   SLOAD = 0x54,
+  SSTORE = 0x55,
   PUSH1 = 0x60,
   CALL = 0xf1,
   RETURN = 0xf3,

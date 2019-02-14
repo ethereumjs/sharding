@@ -18,6 +18,7 @@
  (import "ethereum" "finish" (func $assembly/ethereum/finish (param i32 i32)))
  (import "ethereum" "call" (func $assembly/ethereum/call (param i32 i32 i32 i32) (result i32)))
  (import "ethereum" "storageLoad" (func $assembly/ethereum/storageLoad (param i32 i32)))
+ (import "ethereum" "storageStore" (func $assembly/ethereum/storageStore (param i32 i32)))
  (memory $0 1)
  (data (i32.const 8) "\16\00\00\00~\00l\00i\00b\00/\00a\00l\00l\00o\00c\00a\00t\00o\00r\00/\00t\00l\00s\00f\00.\00t\00s")
  (data (i32.const 56) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s")
@@ -34,7 +35,7 @@
  (export "table" (table $0))
  (export "main" (func $assembly/index/main))
  (export "runOpcode" (func $assembly/index/runOpcode))
- (func $~lib/internal/arraybuffer/computeSize (; 6 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/computeSize (; 7 ;) (type $ii) (param $0 i32) (result i32)
   i32.const 1
   i32.const 32
   local.get $0
@@ -44,12 +45,12 @@
   i32.sub
   i32.shl
  )
- (func $~lib/allocator/tlsf/Root#set:tailRef (; 7 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/allocator/tlsf/Root#set:tailRef (; 8 ;) (type $FUNCSIG$vi) (param $0 i32)
   i32.const 2912
   local.get $0
   i32.store
  )
- (func $~lib/allocator/tlsf/Root#setSLMap (; 8 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/allocator/tlsf/Root#setSLMap (; 9 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   i32.const 22
   i32.ge_u
@@ -69,7 +70,7 @@
   local.get $2
   i32.store offset=4
  )
- (func $~lib/allocator/tlsf/Root#setHead (; 9 ;) (type $iiii_) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $~lib/allocator/tlsf/Root#setHead (; 10 ;) (type $iiii_) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   local.get $1
   i32.const 22
   i32.ge_u
@@ -104,7 +105,7 @@
   local.get $3
   i32.store offset=96
  )
- (func $~lib/allocator/tlsf/Block#get:right (; 10 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/Block#get:right (; 11 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.load
@@ -139,7 +140,7 @@
    unreachable
   end
  )
- (func $~lib/allocator/tlsf/fls<usize> (; 11 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/fls<usize> (; 12 ;) (type $ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -155,7 +156,7 @@
   i32.clz
   i32.sub
  )
- (func $~lib/allocator/tlsf/Root#getHead (; 12 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#getHead (; 13 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $1
   i32.const 22
   i32.ge_u
@@ -189,7 +190,7 @@
   i32.add
   i32.load offset=96
  )
- (func $~lib/allocator/tlsf/Root#getSLMap (; 13 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#getSLMap (; 14 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   i32.const 22
   i32.ge_u
@@ -208,7 +209,7 @@
   i32.add
   i32.load offset=4
  )
- (func $~lib/allocator/tlsf/Root#remove (; 14 ;) (type $ii_) (param $0 i32) (param $1 i32)
+ (func $~lib/allocator/tlsf/Root#remove (; 15 ;) (type $ii_) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -337,7 +338,7 @@
    end
   end
  )
- (func $~lib/allocator/tlsf/Block#get:left (; 15 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/Block#get:left (; 16 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.load
@@ -368,7 +369,7 @@
    unreachable
   end
  )
- (func $~lib/allocator/tlsf/Root#setJump (; 16 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/allocator/tlsf/Root#setJump (; 17 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   local.get $0
   i32.load
   i32.const 1
@@ -413,7 +414,7 @@
   local.get $0
   i32.store
  )
- (func $~lib/allocator/tlsf/Root#insert (; 17 ;) (type $ii_) (param $0 i32) (param $1 i32)
+ (func $~lib/allocator/tlsf/Root#insert (; 18 ;) (type $ii_) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -649,7 +650,7 @@
   i32.or
   call $~lib/allocator/tlsf/Root#setSLMap
  )
- (func $~lib/allocator/tlsf/Root#addMemory (; 18 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#addMemory (; 19 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -773,7 +774,7 @@
   call $~lib/allocator/tlsf/Root#insert
   i32.const 1
  )
- (func $~lib/allocator/tlsf/ffs<usize> (; 19 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/ffs<usize> (; 20 ;) (type $ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -787,7 +788,7 @@
   local.get $0
   i32.ctz
  )
- (func $~lib/allocator/tlsf/Root#search (; 20 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#search (; 21 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   i32.const 16
@@ -905,7 +906,7 @@
    end
   end
  )
- (func $~lib/allocator/tlsf/Root#use (; 21 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/allocator/tlsf/Root#use (; 22 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1017,7 +1018,7 @@
   i32.const 8
   i32.add
  )
- (func $~lib/allocator/tlsf/__memory_allocate (; 22 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/__memory_allocate (; 23 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1210,7 +1211,7 @@
   local.get $0
   call $~lib/allocator/tlsf/Root#use
  )
- (func $~lib/internal/arraybuffer/allocateUnsafe (; 23 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/allocateUnsafe (; 24 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 1073741816
@@ -1231,7 +1232,7 @@
   i32.store
   local.get $1
  )
- (func $~lib/internal/memory/memset (; 24 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/internal/memory/memset (; 25 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   i32.eqz
@@ -1457,7 +1458,7 @@
    end
   end
  )
- (func $~lib/array/Array<u8>#constructor (; 25 ;) (type $FUNCSIG$i) (result i32)
+ (func $~lib/array/Array<u8>#constructor (; 26 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i32)
   (local $1 i32)
   i32.const 1024
@@ -1484,7 +1485,7 @@
   call $~lib/internal/memory/memset
   local.get $0
  )
- (func $assembly/stack/Stack#constructor (; 26 ;) (type $FUNCSIG$i) (result i32)
+ (func $assembly/stack/Stack#constructor (; 27 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i32)
   i32.const 12
   call $~lib/allocator/tlsf/__memory_allocate
@@ -1508,7 +1509,7 @@
   i32.store offset=8
   local.get $0
  )
- (func $~lib/allocator/tlsf/__memory_free (; 27 ;) (type $i_) (param $0 i32)
+ (func $~lib/allocator/tlsf/__memory_free (; 28 ;) (type $i_) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1546,7 +1547,7 @@
    end
   end
  )
- (func $~lib/array/Array<u8>#pop (; 28 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<u8>#pop (; 29 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -1576,7 +1577,7 @@
   i32.store offset=4
   local.get $2
  )
- (func $assembly/stack/Stack#pop (; 29 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/stack/Stack#pop (; 30 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.load offset=8
@@ -1596,7 +1597,7 @@
   i32.store offset=8
   local.get $1
  )
- (func $~lib/internal/memory/memcpy (; 30 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memcpy (; 31 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   loop $continue|0
@@ -2647,7 +2648,7 @@
    i32.store8
   end
  )
- (func $~lib/internal/memory/memmove (; 31 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memmove (; 32 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $0
   local.get $1
@@ -2847,7 +2848,7 @@
    end
   end
  )
- (func $~lib/internal/arraybuffer/reallocateUnsafe (; 32 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/arraybuffer/reallocateUnsafe (; 33 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -2925,7 +2926,7 @@
   end
   local.get $0
  )
- (func $~lib/array/Array<u8>#push (; 33 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<u8>#push (; 34 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2970,7 +2971,7 @@
   i32.store8 offset=8
   local.get $3
  )
- (func $assembly/stack/Stack#push (; 34 ;) (type $ii_) (param $0 i32) (param $1 i32)
+ (func $assembly/stack/Stack#push (; 35 ;) (type $ii_) (param $0 i32) (param $1 i32)
   local.get $0
   i32.load offset=8
   local.get $0
@@ -2991,7 +2992,7 @@
   i32.add
   i32.store offset=8
  )
- (func $assembly/index/call (; 35 ;) (type $FUNCSIG$i) (result i32)
+ (func $assembly/index/call (; 36 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -3019,140 +3020,158 @@
   i32.const 1
   call $assembly/ethereum/call
  )
- (func $assembly/index/runOpcode (; 36 ;) (type $i_) (param $0 i32)
+ (func $assembly/index/runOpcode (; 37 ;) (type $i_) (param $0 i32)
   (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
   block $break|0
-   block $case11|0
-    block $case10|0
-     block $case9|0
-      block $case8|0
-       block $case7|0
-        block $case6|0
-         block $case5|0
-          block $case4|0
-           block $case3|0
-            block $case2|0
-             block $case1|0
-              local.get $0
-              i32.const 255
-              i32.and
-              local.tee $0
-              if
+   block $case12|0
+    block $case11|0
+     block $case10|0
+      block $case9|0
+       block $case8|0
+        block $case7|0
+         block $case6|0
+          block $case5|0
+           block $case4|0
+            block $case3|0
+             block $case2|0
+              block $case1|0
                local.get $0
+               i32.const 255
+               i32.and
+               local.tee $0
+               if
+                local.get $0
+                i32.const 1
+                i32.eq
+                br_if $case1|0
+                local.get $0
+                i32.const 2
+                i32.eq
+                br_if $case2|0
+                local.get $0
+                i32.const 3
+                i32.eq
+                br_if $case3|0
+                local.get $0
+                i32.const 4
+                i32.eq
+                br_if $case4|0
+                local.get $0
+                i32.const 67
+                i32.eq
+                br_if $case5|0
+                local.get $0
+                i32.const 81
+                i32.eq
+                br_if $case6|0
+                local.get $0
+                i32.const 83
+                i32.eq
+                br_if $case7|0
+                local.get $0
+                i32.const 84
+                i32.eq
+                br_if $case8|0
+                local.get $0
+                i32.const 85
+                i32.eq
+                br_if $case9|0
+                local.get $0
+                i32.const 96
+                i32.eq
+                br_if $case10|0
+                local.get $0
+                i32.const 241
+                i32.eq
+                br_if $case11|0
+                local.get $0
+                i32.const 243
+                i32.eq
+                br_if $case12|0
+                br $break|0
+               end
+               global.get $assembly/index/resultPtr
                i32.const 1
-               i32.eq
-               br_if $case1|0
-               local.get $0
-               i32.const 2
-               i32.eq
-               br_if $case2|0
-               local.get $0
-               i32.const 3
-               i32.eq
-               br_if $case3|0
-               local.get $0
-               i32.const 4
-               i32.eq
-               br_if $case4|0
-               local.get $0
-               i32.const 67
-               i32.eq
-               br_if $case5|0
-               local.get $0
-               i32.const 81
-               i32.eq
-               br_if $case6|0
-               local.get $0
-               i32.const 83
-               i32.eq
-               br_if $case7|0
-               local.get $0
-               i32.const 84
-               i32.eq
-               br_if $case8|0
-               local.get $0
-               i32.const 96
-               i32.eq
-               br_if $case9|0
-               local.get $0
-               i32.const 241
-               i32.eq
-               br_if $case10|0
-               local.get $0
-               i32.const 243
-               i32.eq
-               br_if $case11|0
+               call $assembly/ethereum/finish
+               global.get $assembly/index/resultPtr
+               call $~lib/allocator/tlsf/__memory_free
                br $break|0
               end
-              global.get $assembly/index/resultPtr
-              i32.const 1
-              call $assembly/ethereum/finish
-              global.get $assembly/index/resultPtr
-              call $~lib/allocator/tlsf/__memory_free
+              global.get $assembly/index/stack
+              call $assembly/stack/Stack#pop
+              local.set $0
+              global.get $assembly/index/stack
+              call $assembly/stack/Stack#pop
+              local.set $1
+              global.get $assembly/index/stack
+              local.get $0
+              local.get $1
+              i32.add
+              call $assembly/stack/Stack#push
               br $break|0
              end
              global.get $assembly/index/stack
-             call $assembly/stack/Stack#pop
-             local.set $0
              global.get $assembly/index/stack
              call $assembly/stack/Stack#pop
-             local.set $1
              global.get $assembly/index/stack
-             local.get $0
-             local.get $1
-             i32.add
+             call $assembly/stack/Stack#pop
+             i32.mul
              call $assembly/stack/Stack#push
              br $break|0
             end
             global.get $assembly/index/stack
+            call $assembly/stack/Stack#pop
+            local.set $1
             global.get $assembly/index/stack
             call $assembly/stack/Stack#pop
+            local.set $0
             global.get $assembly/index/stack
-            call $assembly/stack/Stack#pop
-            i32.mul
+            local.get $1
+            local.get $0
+            i32.sub
             call $assembly/stack/Stack#push
             br $break|0
            end
            global.get $assembly/index/stack
            call $assembly/stack/Stack#pop
-           local.set $1
-           global.get $assembly/index/stack
-           call $assembly/stack/Stack#pop
            local.set $0
            global.get $assembly/index/stack
-           local.get $1
+           call $assembly/stack/Stack#pop
+           local.tee $1
+           i32.const 255
+           i32.and
+           i32.eqz
+           if
+            unreachable
+           end
+           global.get $assembly/index/stack
            local.get $0
-           i32.sub
+           i32.const 255
+           i32.and
+           local.get $1
+           i32.const 255
+           i32.and
+           i32.div_u
            call $assembly/stack/Stack#push
            br $break|0
           end
+          call $assembly/index/call
+          local.set $1
           global.get $assembly/index/stack
-          call $assembly/stack/Stack#pop
-          local.set $0
-          global.get $assembly/index/stack
-          call $assembly/stack/Stack#pop
-          local.tee $1
-          i32.const 255
-          i32.and
-          i32.eqz
-          if
-           unreachable
-          end
-          global.get $assembly/index/stack
-          local.get $0
-          i32.const 255
-          i32.and
           local.get $1
-          i32.const 255
-          i32.and
-          i32.div_u
           call $assembly/stack/Stack#push
           br $break|0
          end
-         call $assembly/index/call
-         local.set $1
          global.get $assembly/index/stack
-         local.get $1
+         call $assembly/stack/Stack#pop
+         i32.const 255
+         i32.and
+         i32.load8_u
+         local.set $0
+         global.get $assembly/index/stack
+         local.get $0
          call $assembly/stack/Stack#push
          br $break|0
         end
@@ -3160,50 +3179,66 @@
         call $assembly/stack/Stack#pop
         i32.const 255
         i32.and
-        i32.load8_u
-        local.set $0
         global.get $assembly/index/stack
-        local.get $0
-        call $assembly/stack/Stack#push
+        call $assembly/stack/Stack#pop
+        i32.store8
         br $break|0
        end
        global.get $assembly/index/stack
        call $assembly/stack/Stack#pop
-       i32.const 255
-       i32.and
-       global.get $assembly/index/stack
-       call $assembly/stack/Stack#pop
+       local.set $1
+       i32.const 1
+       call $~lib/allocator/tlsf/__memory_allocate
+       local.set $0
+       i32.const 1
+       call $~lib/allocator/tlsf/__memory_allocate
+       local.set $2
+       local.get $0
+       local.get $1
        i32.store8
+       local.get $0
+       local.get $2
+       call $assembly/ethereum/storageLoad
+       global.get $assembly/index/stack
+       local.get $2
+       i32.load8_u
+       call $assembly/stack/Stack#push
        br $break|0
       end
-      i32.const 1
-      call $~lib/allocator/tlsf/__memory_allocate
-      local.tee $1
       global.get $assembly/index/stack
       call $assembly/stack/Stack#pop
-      i32.store8
-      local.get $1
+      local.set $3
+      global.get $assembly/index/stack
+      call $assembly/stack/Stack#pop
+      local.set $2
       i32.const 1
       call $~lib/allocator/tlsf/__memory_allocate
-      local.tee $0
-      call $assembly/ethereum/storageLoad
-      global.get $assembly/index/stack
+      local.set $0
+      i32.const 1
+      call $~lib/allocator/tlsf/__memory_allocate
+      local.set $1
       local.get $0
-      i32.load8_u
-      call $assembly/stack/Stack#push
+      local.get $3
+      i32.store8
+      local.get $1
+      local.get $2
+      i32.store8
+      local.get $0
+      local.get $1
+      call $assembly/ethereum/storageStore
       br $break|0
      end
      global.get $assembly/index/inputPtr
      global.get $assembly/index/pc
      i32.add
      i32.load8_u
-     local.set $0
+     local.set $1
      global.get $assembly/index/pc
      i32.const 1
      i32.add
      global.set $assembly/index/pc
      global.get $assembly/index/stack
-     local.get $0
+     local.get $1
      call $assembly/stack/Stack#push
      br $break|0
     end
@@ -3239,7 +3274,7 @@
    i32.store8
   end
  )
- (func $assembly/index/main (; 37 ;) (type $_)
+ (func $assembly/index/main (; 38 ;) (type $_)
   (local $0 i32)
   (local $1 i32)
   global.get $~started
@@ -3280,7 +3315,7 @@
   global.get $assembly/index/inputPtr
   call $~lib/allocator/tlsf/__memory_free
  )
- (func $null (; 38 ;) (type $_)
+ (func $null (; 39 ;) (type $_)
   nop
  )
 )

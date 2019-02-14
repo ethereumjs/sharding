@@ -15,6 +15,7 @@ export default class Minimal {
   _results: any
   _memory: any
   _state: State
+  _storage: Map<string, Uint8Array>
 
   constructor(data: any, state: State) {
     this._data = data
@@ -22,6 +23,8 @@ export default class Minimal {
     this._results = {
       gasUsed: new BN(0),
     }
+    // Temp replacement for trie
+    this._storage = new Map()
   }
 
   get imports() {
@@ -44,6 +47,7 @@ export default class Minimal {
     return {
       getCallDataSize: this.getCallDataSize.bind(this),
       callDataCopy: this.callDataCopy.bind(this),
+      storageStore: this.storageStore.bind(this),
       storageLoad: this.storageLoad.bind(this),
       call: this.call.bind(this),
       finish: this.finish.bind(this),
@@ -70,6 +74,12 @@ export default class Minimal {
     this._memory.write(resultOffset, length, data)
   }
 
+  storageStore(pathOffset: number, valueOffset: number) {
+    const path = this._memory.read(pathOffset, 1)
+    const v = this._memory.read(valueOffset, 1)
+    this._storage.set(path.toString('hex'), v)
+  }
+
   /**
    * Loads a 256-bit a value to memory from persistent storage.
    * @param pathOffset - The memory offset to load the path from
@@ -78,7 +88,11 @@ export default class Minimal {
   storageLoad(pathOffset: number, resultOffset: number) {
     const path = this._memory.read(pathOffset, 1)
     // TODO: Actually fetch from trie
-    this._memory.write(resultOffset, 1, path)
+    const v = this._storage.get(path.toString('hex'))
+    if (typeof v === 'undefined') {
+      throw new Error('Key not in storage')
+    }
+    this._memory.write(resultOffset, 1, v)
   }
 
   call(addressOffset: number, valueOffset: number, dataOffset: number, dataLength: number): number {
