@@ -9,25 +9,30 @@ let inputPtr: usize
 let pc: u32 = 0
 const stack: Stack = new Stack()
 // Pointer for storing final result
-let resultOffset: usize = 0
+let resultPtr: usize
+// Contract from which to retrieve env data
+const ENV_CONTRACT: u8 = 0x10
 
 export function main(): void {
+  // Copy calldata to heap
   const length: u32 = eth.getCallDataSize()
   inputPtr = memory.allocate(length)
   eth.callDataCopy(inputPtr, 0, length)
-  resultOffset = length + 1
 
   while (pc < length) {
     const opcode: u8 = load<u8>(inputPtr + pc)
     pc++
     runOpcode(opcode)
   }
+
+  memory.free(inputPtr)
 }
 
 export function runOpcode(opcode: u8): void {
   switch (opcode) {
     case OPCODE.STOP: {
-      eth.finish(resultOffset, 1)
+      eth.finish(resultPtr, 1)
+      memory.free(resultPtr)
       break
     }
     case OPCODE.ADD: {
@@ -54,6 +59,8 @@ export function runOpcode(opcode: u8): void {
       break
     }
     case OPCODE.NUMBER: {
+      const res: u8 = call(ENV_CONTRACT, 0, 0x43)
+      stack.push(res)
       break
     }
     case OPCODE.MLOAD: {
@@ -85,8 +92,20 @@ export function runOpcode(opcode: u8): void {
       break
     }
     case OPCODE.RETURN: {
-      store<u8>(resultOffset, stack.pop())
+      resultPtr = memory.allocate(1)
+      store<u8>(resultPtr, stack.pop())
       break
     }
   }
+}
+
+function call(address: u8, value: u8, data: u8): u8 {
+  const addressPtr = memory.allocate(1)
+  const valuePtr = memory.allocate(1)
+  const dataPtr = memory.allocate(1)
+  const dataLength = 1
+  store<u8>(addressPtr, address)
+  store<u8>(valuePtr, value)
+  store<u8>(dataPtr, data)
+  return eth.call(addressPtr, valuePtr, dataPtr, dataLength)
 }

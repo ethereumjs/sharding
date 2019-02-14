@@ -114,3 +114,13 @@ test('should get block number via call', t => {
   t.is(res.exception, 1)
   t.deepEqual(res.return, Buffer.from([blockNumber]))
 })
+
+test('should get block number via opcode', t => {
+  const c = new Contract(wasm)
+  const blockNumber = 0x06
+  const bytecode = Buffer.from([OP.NUMBER, OP.RETURN, OP.STOP])
+  const iface = new Interface({ data: bytecode, blockNumber })
+  const res = c.run(iface)
+  t.is(res.exception, 1)
+  t.deepEqual(res.return, Buffer.from([blockNumber]))
+})

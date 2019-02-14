@@ -46,7 +46,8 @@
  (global $~lib/allocator/tlsf/Block.MIN_SIZE i32 (i32.const 16))
  (global $~lib/allocator/tlsf/Block.MAX_SIZE i32 (i32.const 1073741824))
  (global $assembly/index/stack (mut i32) (i32.const 0))
- (global $assembly/index/resultOffset (mut i32) (i32.const 0))
+ (global $assembly/index/resultPtr (mut i32) (i32.const 0))
+ (global $assembly/index/ENV_CONTRACT i32 (i32.const 16))
  (global $assembly/opcode/OPCODE.STOP i32 (i32.const 0))
  (global $assembly/opcode/OPCODE.ADD i32 (i32.const 1))
  (global $assembly/opcode/OPCODE.MUL i32 (i32.const 2))
@@ -1817,7 +1818,50 @@
   i32.store offset=8
   local.get $0
  )
- (func $~lib/array/Array<u8>#pop (; 29 ;) (type $ii) (param $0 i32) (result i32)
+ (func $~lib/allocator/tlsf/__memory_free (; 29 ;) (type $i_) (param $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  local.get $0
+  if
+   global.get $~lib/allocator/tlsf/ROOT
+   local.set $1
+   local.get $1
+   if
+    local.get $0
+    global.get $~lib/allocator/tlsf/Block.INFO
+    i32.sub
+    local.set $2
+    local.get $2
+    i32.load
+    local.set $3
+    local.get $3
+    global.get $~lib/allocator/tlsf/FREE
+    i32.and
+    i32.eqz
+    i32.eqz
+    if
+     i32.const 0
+     i32.const 8
+     i32.const 494
+     i32.const 6
+     call $~lib/env/abort
+     unreachable
+    end
+    local.get $2
+    local.get $3
+    global.get $~lib/allocator/tlsf/FREE
+    i32.or
+    i32.store
+    local.get $1
+    local.get $0
+    global.get $~lib/allocator/tlsf/Block.INFO
+    i32.sub
+    call $~lib/allocator/tlsf/Root#insert
+   end
+  end
+ )
+ (func $~lib/array/Array<u8>#pop (; 30 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1863,7 +1907,7 @@
   i32.store offset=4
   local.get $5
  )
- (func $assembly/stack/Stack#pop (; 30 ;) (type $ii) (param $0 i32) (result i32)
+ (func $assembly/stack/Stack#pop (; 31 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.load offset=8
@@ -1884,7 +1928,7 @@
   i32.store offset=8
   local.get $1
  )
- (func $~lib/internal/memory/memcpy (; 31 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memcpy (; 32 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -3085,7 +3129,7 @@
    i32.store8
   end
  )
- (func $~lib/internal/memory/memmove (; 32 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memmove (; 33 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $0
   local.get $1
@@ -3312,49 +3356,6 @@
    end
   end
  )
- (func $~lib/allocator/tlsf/__memory_free (; 33 ;) (type $i_) (param $0 i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  local.get $0
-  if
-   global.get $~lib/allocator/tlsf/ROOT
-   local.set $1
-   local.get $1
-   if
-    local.get $0
-    global.get $~lib/allocator/tlsf/Block.INFO
-    i32.sub
-    local.set $2
-    local.get $2
-    i32.load
-    local.set $3
-    local.get $3
-    global.get $~lib/allocator/tlsf/FREE
-    i32.and
-    i32.eqz
-    i32.eqz
-    if
-     i32.const 0
-     i32.const 8
-     i32.const 494
-     i32.const 6
-     call $~lib/env/abort
-     unreachable
-    end
-    local.get $2
-    local.get $3
-    global.get $~lib/allocator/tlsf/FREE
-    i32.or
-    i32.store
-    local.get $1
-    local.get $0
-    global.get $~lib/allocator/tlsf/Block.INFO
-    i32.sub
-    call $~lib/allocator/tlsf/Root#insert
-   end
-  end
- )
  (func $~lib/internal/arraybuffer/reallocateUnsafe (; 34 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
@@ -3410,12 +3411,12 @@
      local.get $6
      call $~lib/internal/memory/memmove
     end
-    block $~lib/memory/memory.free|inlined.0
+    block $~lib/memory/memory.free|inlined.1
      local.get $0
      local.set $6
      local.get $6
      call $~lib/allocator/tlsf/__memory_free
-     br $~lib/memory/memory.free|inlined.0
+     br $~lib/memory/memory.free|inlined.1
     end
     local.get $3
     local.set $0
@@ -3556,7 +3557,50 @@
   i32.add
   i32.store offset=8
  )
- (func $assembly/index/runOpcode (; 37 ;) (type $i_) (param $0 i32)
+ (func $assembly/index/call (; 37 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  block $~lib/memory/memory.allocate|inlined.2 (result i32)
+   i32.const 1
+   local.set $3
+   local.get $3
+   call $~lib/allocator/tlsf/__memory_allocate
+   br $~lib/memory/memory.allocate|inlined.2
+  end
+  local.set $3
+  block $~lib/memory/memory.allocate|inlined.3 (result i32)
+   i32.const 1
+   local.set $4
+   local.get $4
+   call $~lib/allocator/tlsf/__memory_allocate
+   br $~lib/memory/memory.allocate|inlined.3
+  end
+  local.set $4
+  block $~lib/memory/memory.allocate|inlined.4 (result i32)
+   i32.const 1
+   local.set $5
+   local.get $5
+   call $~lib/allocator/tlsf/__memory_allocate
+   br $~lib/memory/memory.allocate|inlined.4
+  end
+  local.set $5
+  local.get $3
+  local.get $0
+  i32.store8
+  local.get $4
+  local.get $1
+  i32.store8
+  local.get $5
+  local.get $2
+  i32.store8
+  local.get $3
+  local.get $4
+  local.get $5
+  i32.const 1
+  call $assembly/ethereum/call
+ )
+ (func $assembly/index/runOpcode (; 38 ;) (type $i_) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3625,9 +3669,16 @@
               br $break|0
              end
              block
-              global.get $assembly/index/resultOffset
+              global.get $assembly/index/resultPtr
               i32.const 1
               call $assembly/ethereum/finish
+              block $~lib/memory/memory.free|inlined.0
+               global.get $assembly/index/resultPtr
+               local.set $1
+               local.get $1
+               call $~lib/allocator/tlsf/__memory_free
+               br $~lib/memory/memory.free|inlined.0
+              end
               br $break|0
               unreachable
              end
@@ -3709,7 +3760,19 @@
          end
          unreachable
         end
-        br $break|0
+        block
+         i32.const 16
+         i32.const 0
+         i32.const 67
+         call $assembly/index/call
+         local.set $2
+         global.get $assembly/index/stack
+         local.get $2
+         call $assembly/stack/Stack#push
+         br $break|0
+         unreachable
+        end
+        unreachable
        end
        block
         global.get $assembly/index/stack
@@ -3799,7 +3862,15 @@
     unreachable
    end
    block
-    global.get $assembly/index/resultOffset
+    block $~lib/memory/memory.allocate|inlined.5 (result i32)
+     i32.const 1
+     local.set $5
+     local.get $5
+     call $~lib/allocator/tlsf/__memory_allocate
+     br $~lib/memory/memory.allocate|inlined.5
+    end
+    global.set $assembly/index/resultPtr
+    global.get $assembly/index/resultPtr
     global.get $assembly/index/stack
     call $assembly/stack/Stack#pop
     i32.store8
@@ -3809,7 +3880,7 @@
    unreachable
   end
  )
- (func $assembly/index/main (; 38 ;) (type $_)
+ (func $assembly/index/main (; 39 ;) (type $_)
   (local $0 i32)
   (local $1 i32)
   global.get $~started
@@ -3833,10 +3904,6 @@
   i32.const 0
   local.get $0
   call $assembly/ethereum/callDataCopy
-  local.get $0
-  i32.const 1
-  i32.add
-  global.set $assembly/index/resultOffset
   block $break|0
    loop $continue|0
     global.get $assembly/index/pc
@@ -3860,8 +3927,15 @@
     end
    end
   end
+  block $~lib/memory/memory.free|inlined.2
+   global.get $assembly/index/inputPtr
+   local.set $1
+   local.get $1
+   call $~lib/allocator/tlsf/__memory_free
+   br $~lib/memory/memory.free|inlined.2
+  end
  )
- (func $start (; 39 ;) (type $_)
+ (func $start (; 40 ;) (type $_)
   i32.const 1
   global.get $~lib/allocator/tlsf/SL_BITS
   i32.shl
@@ -3881,6 +3955,6 @@
   call $assembly/stack/Stack#constructor
   global.set $assembly/index/stack
  )
- (func $null (; 40 ;) (type $_)
+ (func $null (; 41 ;) (type $_)
  )
 )
