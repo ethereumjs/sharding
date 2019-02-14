@@ -10,14 +10,12 @@ import { OPCODE } from '../../../assembly/opcode'
 const ENV_CONTRACT = Buffer.from([0x10])
 
 export default class Minimal {
-  init: Buffer
   _data: any
   _results: any
   _memory: any
 
   constructor(data: any) {
     this._data = data
-    this.init = data.init
     this._results = {
       gasUsed: new BN(0),
     }
@@ -41,9 +39,31 @@ export default class Minimal {
 
   get ethereum() {
     return {
+      getCallDataSize: this.getCallDataSize.bind(this),
+      callDataCopy: this.callDataCopy.bind(this),
       call: this.call.bind(this),
       finish: this.finish.bind(this),
     }
+  }
+
+  /**
+   * Returns size of input data in current environment. This pertains to the
+   * input data passed with the message call instruction or transaction.
+   */
+  getCallDataSize() {
+    return this._data.data.length
+  }
+
+  /**
+   * Copies the input data in current environment to memory. This pertains to
+   * the input data passed with the message call instruction or transaction.
+   * @param resultOffset - The memory offset to load data into
+   * @param dataOffset - The offset in the input data
+   * @param length - The length of data to copy
+   */
+  callDataCopy(resultOffset: number, dataOffset: number, length: number) {
+    const data = this._data.data.slice(dataOffset, dataOffset + length)
+    this._memory.write(resultOffset, length, data)
   }
 
   call(addressOffset: number, valueOffset: number, dataOffset: number, dataLength: number): number {

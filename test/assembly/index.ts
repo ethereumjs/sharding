@@ -11,7 +11,7 @@ const wasm = fs.readFileSync(path.join(__dirname, '../../build/optimized.wasm'))
 test('should parse stop', t => {
   const c = new Contract(wasm)
   const bytecode = Buffer.from([OP.STOP])
-  const iface = new Interface({ init: bytecode })
+  const iface = new Interface({ data: bytecode })
   const res = c.run(iface)
   t.is(res.exception, 1)
 })
@@ -41,7 +41,7 @@ test('should perform arithmetic', t => {
 
   for (const st of cases) {
     const c = new Contract(wasm)
-    const iface = new Interface({ init: st.init })
+    const iface = new Interface({ data: st.init })
     const res = c.run(iface)
 
     t.is(res.exception, 1)
@@ -65,7 +65,7 @@ test('should store/load memory', t => {
     OP.RETURN,
     OP.STOP,
   ])
-  const iface = new Interface({ init: bytecode })
+  const iface = new Interface({ data: bytecode })
   const res = c.run(iface)
   t.is(res.exception, 1)
   t.deepEqual(res.return, Buffer.from([val]))
@@ -109,7 +109,7 @@ test('should get block number via call', t => {
     OP.RETURN,
     OP.STOP,
   ])
-  const iface = new Interface({ init: bytecode, blockNumber })
+  const iface = new Interface({ data: bytecode, blockNumber })
   const res = c.run(iface)
   t.is(res.exception, 1)
   t.deepEqual(res.return, Buffer.from([blockNumber]))

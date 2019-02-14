@@ -12,14 +12,12 @@ const transformerRaw = fs.readFileSync(path.join(__dirname, '../system/transform
 const transformerModule = new WebAssembly.Module(transformerRaw)
 
 export default class EEI {
-  init: Buffer
   _data: any
   _results: any
   transformer: any
   _memory: any
 
   constructor(data: any) {
-    this.init = Buffer.from([])
     this._data = data
     this._results = {
       gasUsed: new BN(0),
