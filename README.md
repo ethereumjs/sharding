@@ -11,7 +11,13 @@ This project aims to implement a PoC for some of the sharding proposals, includi
 
 ## Test
 
-To run the tests:
+Before running the tests, the assemblyscript module should be built by running:
+
+```sh
+npm run asbuild
+```
+
+Then, to run the tests:
 
 ```sh
 npm t
