@@ -1,5 +1,5 @@
 import anyTest, { TestInterface } from 'ava'
-import { DBMA, Collation, Log } from '../src'
+import { DBMA, Collation, Log } from '../../src'
 
 const test = anyTest as TestInterface<{ a: DBMA; collations: Collation[] }>
 

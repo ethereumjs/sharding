@@ -1,6 +1,6 @@
 import test from 'ava'
 const ethUtil = require('ethereumjs-util')
-import MerkleTree from '../src/merkle'
+import { MerkleTree }  from '../../src'
 
 test('should have empty root', t => {
   const tree = new MerkleTree()

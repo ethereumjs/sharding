@@ -2,7 +2,7 @@
  * @module dbma
  */
 import MerkleTree from './merkle'
-import DB from './db'
+import DB from '../db'
 
 export interface PreWitness {
   root: Buffer
